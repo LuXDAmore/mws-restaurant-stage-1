@@ -1,15 +1,21 @@
-let restaurants,
-	neighborhoods,
-	cuisines
-var map
-var markers = []
+/* eslint-disable no-unused-vars */
+let restaurants
+	, neighborhoods
+	, cuisines
+;
+let map
+	, markers = []
+;
+/* eslint-enable no-unused-vars */
+
+'use strict';
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
  */
 document.addEventListener(
 	'DOMContentLoaded',
-	event => {
+	() => {
 
 		const neighborhoods = document.getElementById( 'neighborhoods-select' );
 		if( neighborhoods )
@@ -25,81 +31,87 @@ document.addEventListener(
 /**
  * Fetch all neighborhoods and set their HTML.
  */
-fetchNeighborhoods = () => {
+function fetchNeighborhoods() {
 
-	DBHelper.fetchNeighborhoods( ( error, neighborhoods ) => {
+	DBHelper.fetchNeighborhoods(
+		( error, neighborhoods ) => {
 
-		if( error ) { // Got an error
+			if( error ) { // Got an error
 
-			console.error( error );
+				window.console.error( error );
 
-} else {
+			} else {
 
-			self.neighborhoods = neighborhoods;
-			fillNeighborhoodsHTML();
+				self.neighborhoods = neighborhoods;
+				fillNeighborhoodsHTML();
 
-}
+			};
 
-} );
+		}
+	);
 
-}
+};
 
 /**
  * Set neighborhoods HTML.
  */
-fillNeighborhoodsHTML = ( neighborhoods = self.neighborhoods ) => {
+function fillNeighborhoodsHTML( neighborhoods = self.neighborhoods ) {
 
 	const select = document.getElementById( 'neighborhoods-select' );
-	neighborhoods.forEach( neighborhood => {
+	neighborhoods.forEach(
+		neighborhood => {
 
-		const option = document.createElement( 'option' );
-		option.innerHTML = neighborhood;
-		option.value = neighborhood;
-		select.append( option );
+			const option = document.createElement( 'option' );
+			option.innerHTML = neighborhood;
+			option.value = neighborhood;
+			select.append( option );
 
-} );
+		}
+	);
 
-}
+};
 
 /**
  * Fetch all cuisines and set their HTML.
  */
-fetchCuisines = () => {
+function fetchCuisines() {
 
-	DBHelper.fetchCuisines( ( error, cuisines ) => {
+	DBHelper.fetchCuisines(
+		( error, cuisines ) => {
 
-		if( error ) { // Got an error!
+			if( error )// Got an error!
+				window.console.error( error );
+			else {
 
-			console.error( error );
+				self.cuisines = cuisines;
+				fillCuisinesHTML();
 
-} else {
+			};
 
-			self.cuisines = cuisines;
-			fillCuisinesHTML();
+		}
+	);
 
-}
-
-} );
-
-}
+};
 
 /**
  * Set cuisines HTML.
  */
-fillCuisinesHTML = ( cuisines = self.cuisines ) => {
+function fillCuisinesHTML( cuisines = self.cuisines ) {
 
 	const select = document.getElementById( 'cuisines-select' );
 
-	cuisines.forEach( cuisine => {
+	cuisines.forEach(
+		cuisine => {
 
-		const option = document.createElement( 'option' );
-		option.innerHTML = cuisine;
-		option.value = cuisine;
-		select.append( option );
+			const option = document.createElement( 'option' );
+			option.innerHTML = cuisine;
+			option.value = cuisine;
+			select.append( option );
 
-} );
+		}
+	);
 
-}
+};
 
 /**
  * Initialize Google map, called from HTML.
@@ -108,21 +120,26 @@ window.initMap = () => {
 
 	let loc = {
 		lat: 40.722216,
-		lng: - 73.987501
+		lng: - 73.987501,
 	};
-	self.map = new google.maps.Map( document.getElementById( 'map' ), {
-		zoom: 12,
-		center: loc,
-		scrollwheel: false
-	} );
+
+	self.map = new google.maps.Map(
+		document.getElementById( 'map' ),
+		{
+			zoom: 12,
+			center: loc,
+			scrollwheel: false,
+		}
+	);
+
 	updateRestaurants();
 
-}
+};
 
 /**
  * Update page and map for current restaurants.
  */
-updateRestaurants = () => {
+function updateRestaurants() {
 
 	const cSelect = document.getElementById( 'cuisines-select' );
 	const nSelect = document.getElementById( 'neighborhoods-select' );
@@ -133,27 +150,29 @@ updateRestaurants = () => {
 	const cuisine = cSelect[ cIndex ].value;
 	const neighborhood = nSelect[ nIndex ].value;
 
-	DBHelper.fetchRestaurantByCuisineAndNeighborhood( cuisine, neighborhood, ( error, restaurants ) => {
+	DBHelper.fetchRestaurantByCuisineAndNeighborhood(
+		cuisine,
+		neighborhood,
+		( error, restaurants ) => {
 
-		if( error ) { // Got an error!
+			if( error )// Got an error!
+				window.console.error( error );
+			else {
 
-			console.error( error );
+				resetRestaurants( restaurants );
+				fillRestaurantsHTML();
 
-} else {
+			};
 
-			resetRestaurants( restaurants );
-			fillRestaurantsHTML();
+		}
+	);
 
-}
-
-} )
-
-}
+};
 
 /**
  * Clear current restaurants, their HTML and remove their map markers.
  */
-resetRestaurants = ( restaurants ) => {
+function resetRestaurants( restaurants ) {
 
 	// Remove all restaurants
 	self.restaurants = [];
@@ -165,27 +184,23 @@ resetRestaurants = ( restaurants ) => {
 	self.markers = [];
 	self.restaurants = restaurants;
 
-}
+};
 
 /**
  * Create all restaurants HTML and add them to the webpage.
  */
-fillRestaurantsHTML = ( restaurants = self.restaurants ) => {
+function fillRestaurantsHTML( restaurants = self.restaurants ) {
 
 	const ul = document.getElementById( 'restaurants-list' );
-	restaurants.forEach( restaurant => {
-
-		ul.append( createRestaurantHTML( restaurant ) );
-
-} );
+	restaurants.forEach( restaurant => ul.append( createRestaurantHTML( restaurant ) ) );
 	addMarkersToMap();
 
-}
+};
 
 /**
  * Create restaurant HTML.
  */
-createRestaurantHTML = ( restaurant ) => {
+function createRestaurantHTML( restaurant ) {
 
 	const li = document.createElement( 'li' );
 
@@ -209,28 +224,30 @@ createRestaurantHTML = ( restaurant ) => {
 	const more = document.createElement( 'a' );
 	more.innerHTML = 'View Details';
 	more.href = DBHelper.urlForRestaurant( restaurant );
-	li.append( more )
+	li.append( more );
 
-	return li
+	return li;
 
-}
+};
 
 /**
  * Add markers for current restaurants to the map.
  */
-addMarkersToMap = ( restaurants = self.restaurants ) => {
+function addMarkersToMap( restaurants = self.restaurants ) {
 
-	restaurants.forEach( restaurant => {
+	restaurants.forEach(
+		restaurant => {
 
 		// Add marker to the map
 		const marker = DBHelper.mapMarkerForRestaurant( restaurant, self.map );
-		google.maps.event.addListener( marker, 'click', () => {
-
-			window.location.href = marker.url
-
-} );
+		google.maps.event.addListener(
+			marker,
+			'click',
+			() => window.location.href = marker.url
+		);
 		self.markers.push( marker );
 
-} );
+		}
+	);
 
-}
+};

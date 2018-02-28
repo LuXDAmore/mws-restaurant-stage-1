@@ -1,7 +1,35 @@
-#restaurants-list
+nav,
+.filter-options,
+#restaurants-list,
+#reviews-container #reviews-list
 	display: flex;
 	flex-wrap: wrap;
 	flex-direction: row;
-	align-items: center;
+	align-items: flex-start;
 	justify-items: center;
 	justify-content: center;
+
+nav,
+.filter-options
+	align-items: center;
+
+.filter-options
+	height: auto;
+
+#restaurant-cuisine,
+#restaurant-hours,
+#restaurant-container,
+#breadcrumb,
+#reviews-container,
+#restaurant-img
+	width: 100%;
+	margin-left: auto;
+	margin-right: auto;
+
+#restaurant-container
+	padding: 2rem;
+
+#reviews-list
+	li
+		width: auto;
+		padding: 1rem;

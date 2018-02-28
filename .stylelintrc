@@ -19,6 +19,7 @@
 					"flexbox",
 					"transforms2d",
 					"calc",
+					"css3-tabsize",
 					"css-fixed"
 				]
 			}

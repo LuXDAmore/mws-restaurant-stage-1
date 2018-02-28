@@ -5,8 +5,7 @@
 	],
 	"plugins": [
 		"prettier",
-		"compat",
-		"angular"
+		"compat"
 	],
 	"parserOptions": {
 		"sourceType": "module",
@@ -104,8 +103,6 @@
 			"always"
 		],
 		"space-infix-ops": "warn",
-		"angular/controller-as": "warn",
-		"angular/controller-as-vm": "off",
 		"comma-dangle": "off",
 		"no-extra-semi": "off",
 		"no-console": "warn",
@@ -198,7 +195,7 @@
 	"globals": {
 		"$": true,
 		"jQuery": true,
-		"angular": true,
+		"DBHelper": true,
 		"module": true,
 		"require": true,
 		"google": true,
