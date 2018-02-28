@@ -16,7 +16,10 @@
 					"css-filters",
 					"css3-cursors",
 					"outline",
-					"flexbox"
+					"flexbox",
+					"transforms2d",
+					"calc",
+					"css-fixed"
 				]
 			}
 		],

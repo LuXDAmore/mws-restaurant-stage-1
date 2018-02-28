@@ -34,6 +34,7 @@
 	"devDependencies": {
 		"babel-eslint": "^7.2.3",
 		"babel-plugin-istanbul": "^4.1.5",
+		"babel-plugin-transform-runtime": "^6.23.0",
 		"babel-preset-env": "^1.6.1",
 		"babel-preset-stage-2": "^6.24.1",
 		"bower": "^1.8.2",
@@ -73,6 +74,8 @@
 		"stylelint-no-unsupported-browser-features": "^1.0.1"
 	},
 	"dependencies": {
+		"babel-polyfill": "^6.26.0",
+		"babel-runtime": "^6.26.0",
 		"include-media": "^1.4.9"
 	},
 	"repository": {
@@ -84,7 +87,7 @@
 		"npm": ">= 3.0.0"
 	},
 	"browserslist": [
-		"> 1%",
+		"> 5%",
 		"last 2 versions",
 		"not ie <= 11"
 	]

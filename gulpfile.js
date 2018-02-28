@@ -112,7 +112,8 @@ options.other_files = [
 	options.directory.source + '/favicon.png',
 	options.directory.source + '/manifest.json',
 	options.directory.source + '/browserconfig.xml',
-	options.directory.source + '/robots.txt'
+	options.directory.source + '/robots.txt',
+	options.directory.source + '/_config.yml',
 ];
 
 // Starting Gulp Tasks
@@ -441,9 +442,15 @@ gulp.task(
 		gutil.log( gutil.colors.white.bgCyan( ' [ Build : App : Scripts ] ' ) );
 
 		var nameJS = development() ? 'app.js' : 'app.min.js';
+		var polyfill = './node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js'
 
 		return gulp
-			.src( options.directory.source + '/app/**/*.js' )
+			.src(
+				[
+					options.directory.source + '/app/**/*.js',
+					polyfill
+				]
+			)
 			.pipe( eslint() )
 			.pipe( eslint.format() )
 			.pipe( gulpif( production(), eslint.failAfterError() ) )
