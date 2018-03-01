@@ -23,6 +23,9 @@ var gulp = require( 'gulp' )
 	, htmlhint = require( 'gulp-htmlhint' )
 	, bower = require( 'gulp-main-bower-files' )
 	, options = {
+		service_worker: {
+			name: 'sw.js',
+		},
 		github: {
 			name: 'mws-restaurant-stage-1',
 		},
@@ -314,6 +317,52 @@ gulp.task(
 			.pipe( gulp.dest( options.directory.dist + '/app/styles' ) )
 			.pipe( filterCSS.restore )
 		;
+
+	}
+);
+
+// SERVICE WORKER
+gulp.task(
+	'generate-service-worker',
+	function( callback ) {
+
+		var path = require( 'path' )
+			, swPrecache = require( 'sw-precache' )
+			, config = {
+				staticFileGlobs: [
+					options.directory.dist + '/**/*.{js,html,css,png,jpg,gif}',
+				],
+				stripPrefix: options.directory.dist,
+			}
+		;
+
+		swPrecache.write(
+			path.join( options.directory.dist, options.service_worker.name ),
+			config,
+			callback
+		);
+
+	}
+);
+gulp.task(
+	'github:pages:generate-service-worker',
+	function( callback ) {
+
+		var path = require( 'path' )
+			, swPrecache = require( 'sw-precache' )
+			, config = {
+				staticFileGlobs: [
+					options.directory.git_pages + '/**/*.{js,html,css,png,jpg,gif}',
+				],
+				stripPrefix: options.directory.git_pages,
+			}
+		;
+
+		swPrecache.write(
+			path.join( options.directory.git_pages, options.service_worker.name ),
+			config,
+			callback
+		);
 
 	}
 );
@@ -658,11 +707,11 @@ gulp.task( 'dev', [ 'serve' ] );
 gulp.task( 'build:development', sequence( 'clean:all', 'environment:development', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' ) );
 gulp.task( 'build:testing', sequence( 'clean:all', 'environment:testing', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' ) );
 gulp.task( 'build:staging', sequence( 'clean:all', 'environment:staging', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' ) );
-gulp.task( 'build', sequence( 'clean', 'environment:production', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html' ], 'build:inject' ) );
+gulp.task( 'build', sequence( 'clean', 'environment:production', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html' ], 'build:inject', 'generate-service-worker' ) );
 gulp.task( 'default', [ 'build' ] );
 
 // Github Pages
-gulp.task( 'github:pages', sequence( 'build', 'github:pages:clean', 'github:pages:copy', 'github:pages:replace' ) );
+gulp.task( 'github:pages', sequence( 'build', 'github:pages:clean', 'github:pages:copy', 'github:pages:replace', 'github:pages:generate-service-worker' ) );
 
 // Exports Gulp if you use 'Gulp Devtools' in Chrome DevTools
 module.exports = gulp;

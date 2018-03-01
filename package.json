@@ -71,7 +71,8 @@
 		"gulp-util": "^3.0.8",
 		"gulp-webpack": "^1.5.0",
 		"prettier": "^1.9.2",
-		"stylelint-no-unsupported-browser-features": "^1.0.1"
+		"stylelint-no-unsupported-browser-features": "^1.0.1",
+		"sw-precache": "^5.2.1"
 	},
 	"dependencies": {
 		"babel-polyfill": "^6.26.0",
