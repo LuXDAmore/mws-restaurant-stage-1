@@ -352,14 +352,17 @@ gulp.task(
 			, swPrecache = require( 'sw-precache' )
 			, config = {
 				staticFileGlobs: [
-					options.directory.git_pages + '/**/*.{js,html,css,png,jpg,gif}',
+					options.directory.git_pages + '/**/**/*.{js,html,css,png,jpg,gif}',
 				],
-				stripPrefix: options.directory.git_pages,
+				stripPrefix: options.directory.git_pages + '/',
 			}
 		;
 
 		swPrecache.write(
-			path.join( options.directory.git_pages, options.service_worker.name ),
+			path.join(
+				options.directory.git_pages,
+				options.service_worker.name
+			),
 			config,
 			callback
 		);
