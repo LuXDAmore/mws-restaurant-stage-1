@@ -2,7 +2,7 @@
 	"name": "mws-restaurant-stage-1",
 	"description": "RESTAURANT REVIEWS",
 	"version": "1.0.0",
-	"main": "./docs/index.html",
+	"main": "./dist/index.html",
 	"keywords": [],
 	"license": "MIT",
 	"author": "Luca Iaconelli <lucabelli9@gmail.com> (https://github.com/luxdamore)",

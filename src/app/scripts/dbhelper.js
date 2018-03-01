@@ -32,7 +32,7 @@ class DBHelper {
 				const json = JSON.parse( xhr.responseText );
 				const restaurants = json.restaurants;
 				callback( null, restaurants );
-			
+
 			} else { // Oops!. Got an error from server.
 
 				const error = ( `Request failed. Returned status of ${xhr.status}` );
@@ -64,7 +64,7 @@ class DBHelper {
 						callback( null, restaurant );
 					else // Restaurant does not exist in the database
 						callback( 'Restaurant does not exist', null );
-					
+
 				}
 
 			}
@@ -90,7 +90,7 @@ class DBHelper {
 					callback( null, results );
 
 				};
-			
+
 			}
 		);
 
@@ -112,12 +112,12 @@ class DBHelper {
 					// Filter restaurants to have only given neighborhood
 					const results = restaurants.filter( r => r.neighborhood == neighborhood );
 					callback( null, results );
-				
+
 				};
-			
+
 			}
 		);
-	
+
 	};
 
 	/**
@@ -140,7 +140,7 @@ class DBHelper {
 
 					if( neighborhood != 'all' ) // filter by neighborhoo
 						results = results.filter( r => r.neighborhood == neighborhood );
-					
+
 					callback( null, results );
 
 				}
@@ -168,9 +168,9 @@ class DBHelper {
 					// Remove duplicates from neighborhoods
 					const uniqueNeighborhoods = neighborhoods.filter( ( v, i ) => neighborhoods.indexOf( v ) == i )
 					callback( null, uniqueNeighborhoods );
-				
+
 				}
-			
+
 			}
 		);
 
@@ -208,7 +208,7 @@ class DBHelper {
 	static urlForRestaurant( restaurant ) {
 
 		return ( `restaurant.html?id=${restaurant.id}` );
-	
+
 	};
 
 	/**
@@ -217,7 +217,7 @@ class DBHelper {
 	static imageUrlForRestaurant( restaurant ) {
 
 		return ( `assets/images/${ restaurant.photograph }` );
-	
+
 	};
 
 	/**

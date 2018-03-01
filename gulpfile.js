@@ -10,7 +10,7 @@ var gulp = require( 'gulp' )
 	, injectString = require( 'gulp-inject-string' )
 	, gulpif = require( 'gulp-if' )
 	, gutil = require( 'gulp-util' )
-	, clean = require( 'gulp-clean' ) //-> Deprecated, in favor of 'del'
+	, del = require( 'del' )
 	, css = require( 'gulp-clean-css' )
 	, cssnano = require( 'gulp-cssnano' )
 	, sass = require( 'gulp-sass' )
@@ -124,15 +124,14 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgMagenta( ' [ CLEAN : DIST ] ' ) );
 
-		return gulp
-			.src(
+		return del(
 				[
 					options.directory.dist,
 					options.directory.source + '/app/scripts/app.environment.js',
 				],
-				options.read
+				options.clean
 			)
-			.pipe( clean( options.clean ) )
+			.catch( errorManager )
 		;
 
 	}
@@ -143,14 +142,13 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgMagenta( ' [ Clean : App : Scripts ] ' ) );
 
-		return gulp
-			.src(
+		return del(
 				[
 					options.directory.dist + '/app/scripts/app-*.js'
 				],
-				options.read
+				options.clean
 			)
-			.pipe( clean( options.clean ) )
+			.catch( errorManager )
 		;
 
 	}
@@ -161,14 +159,13 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgMagenta( ' [ Clean : App : Styles ] ' ) );
 
-		return gulp
-			.src(
+		return del(
 				[
 					options.directory.dist + '/app/styles/app-*.css'
 				],
-				options.read
+				options.clean
 			)
-			.pipe( clean( options.clean ) )
+			.catch( errorManager )
 		;
 
 	}
@@ -179,15 +176,14 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgMagenta( ' [ Clean : Vendor : Bower ] ' ) );
 
-		return gulp
-			.src(
+		return del(
 				[
 					options.directory.dist + '/app/scripts/vendor-*.js',
 					options.directory.dist + '/app/styles/vendor-*.css',
 				],
-				options.read
+				options.clean
 			)
-			.pipe( clean( options.clean ) )
+			.catch( errorManager )
 		;
 
 	}
@@ -198,15 +194,14 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgMagenta( ' [ Clean : Vendor : Themes ] ' ) );
 
-		return gulp
-			.src(
+		return del(
 				[
 					options.directory.dist + '/app/scripts/themes-*.js',
 					options.directory.dist + '/app/styles/themes-*.css',
 				],
-				options.read
+				options.clean
 			)
-			.pipe( clean( options.clean ) )
+			.catch( errorManager )
 		;
 
 	}
@@ -330,10 +325,7 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgMagenta( ' [ Github Pages : Clean ] ' ) );
 
-		return gulp
-			.src( options.directory.git_pages, options.read )
-			.pipe( clean( options.clean ) )
-		;
+		return del( options.directory.git_pages, options.clean ).catch( errorManager );
 
 	}
 );
@@ -442,16 +434,16 @@ gulp.task(
 		gutil.log( gutil.colors.white.bgCyan( ' [ Build : App : Scripts ] ' ) );
 
 		var nameJS = development() ? 'app.js' : 'app.min.js';
+
 		var polyfill = './node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js'
 
+		var scripts = [
+			polyfill,
+			options.directory.source + '/app/**/*.js',
+		];
+
 		return gulp
-			.src(
-				[
-					options.directory.source + '/app/**/*.js',
-					polyfill
-				]
-			)
-			.pipe( eslint() )
+			.src( scripts )
 			.pipe( eslint.format() )
 			.pipe( gulpif( production(), eslint.failAfterError() ) )
 			.pipe( gulpif( staging(), sourcemaps.init() ) )

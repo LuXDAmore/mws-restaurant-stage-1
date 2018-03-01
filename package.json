@@ -2,7 +2,7 @@
 	"name": "mws-restaurant-stage-1",
 	"version": "1.0.0",
 	"description": "RESTAURANT REVIEWS",
-	"main": "./docs/index.html",
+	"main": "./dist/index.html",
 	"scripts": {
 		"test": "test",
 		"clean": "cross-env NODE_ENV=development gulp clean:all",
@@ -50,7 +50,6 @@
 		"gulp": "^3.9.1",
 		"gulp-autoprefixer": "^4.0.0",
 		"gulp-babel": "^6.1.2",
-		"gulp-clean": "^0.3.2",
 		"gulp-clean-css": "^3.9.0",
 		"gulp-concat": "^2.6.1",
 		"gulp-cssnano": "^2.1.2",
@@ -70,12 +69,14 @@
 		"gulp-stylelint": "^3.9.0",
 		"gulp-uglify": "^2.1.2",
 		"gulp-util": "^3.0.8",
+		"gulp-webpack": "^1.5.0",
 		"prettier": "^1.9.2",
 		"stylelint-no-unsupported-browser-features": "^1.0.1"
 	},
 	"dependencies": {
 		"babel-polyfill": "^6.26.0",
 		"babel-runtime": "^6.26.0",
+		"del": "^3.0.0",
 		"include-media": "^1.4.9"
 	},
 	"repository": {
