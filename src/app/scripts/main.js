@@ -207,16 +207,13 @@ function createRestaurantHTML( restaurant ) {
 	const picture = document.createElement( 'picture' );
 	li.append( picture );
 
-	// for( let i = 0; i < 4; i ++ ) {
+	// Fallback
+	const image = document.createElement( 'img' );
+	image.className = 'restaurant-img';
+	image.alt = "Restaurant Image";
 
-		const image = document.createElement( 'img' );
-		image.className = 'restaurant-img';
-		image.alt = "Restaurant Image";
-		
-		image.src = DBHelper.imageUrlForRestaurant( restaurant, 800 );
-		picture.append( image );
-
-	// };
+	image.src = DBHelper.imageUrlForRestaurant( restaurant, 320 );
+	picture.append( image );
 
 	const name = document.createElement( 'h1' );
 	name.innerHTML = restaurant.name;

@@ -1,3 +1,3 @@
 @echo off
 
-for %%i in (images/*.*) do ( magick convert images/%%i -resize 960 images/960/large@2-%%i )
+for %%i in (../src/assets/images/800/*.jpg) do ( magick convert ../src/assets/images/800/%%i -resize 640 ../src/assets/images/640/%%i.webp )

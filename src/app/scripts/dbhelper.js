@@ -207,16 +207,18 @@ class DBHelper {
 	 */
 	static urlForRestaurant( restaurant ) {
 
-		return ( `restaurant.html?id=${restaurant.id}` );
+		return ( `restaurant.html?id=${ restaurant.id }` );
 
 	};
 
 	/**
 	 * Restaurant image URL.
 	 */
-	static imageUrlForRestaurant( restaurant, size ) {
+	static imageUrlForRestaurant( restaurant, size = 'normal', extension = '' ) {
 
-		return ( `assets/images/${ size }/${ restaurant.photograph }` );
+		const filename = extension ? restaurant.photograph.replace( '.jpg', extension ) : restaurant.photograph;
+
+		return ( `assets/images/${ size }/${ filename }` );
 
 	};
 
