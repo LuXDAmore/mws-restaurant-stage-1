@@ -118,17 +118,29 @@ function fillCuisinesHTML( cuisines = self.cuisines ) {
  */
 window.initMap = () => {
 
+	const map = document.getElementById( 'map' );
+
 	let loc = {
 		lat: 40.722216,
 		lng: - 73.987501,
 	};
 
 	self.map = new google.maps.Map(
-		document.getElementById( 'map' ),
+		map,
 		{
 			zoom: 12,
 			center: loc,
 			scrollwheel: false,
+		}
+	);
+
+	google.maps.event.addListenerOnce(
+		self.map,
+		'idle',
+		() => {
+			
+			map.querySelector( 'iframe' ).title = 'Google maps';
+
 		}
 	);
 
@@ -214,7 +226,7 @@ function createRestaurantHTML( restaurant ) {
 	const image = document.createElement( 'img' );
 	image.className = 'restaurant-img';
 	image.alt = 'Restaurant Image';
-	image.src = DBHelper.imageUrlForRestaurant( restaurant, 320 );
+	image.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
 	picture.append( image );
 
 	// Title

@@ -7,7 +7,7 @@
 		<link rel="canonical" href="/" />
 
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimal-ui" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimal-ui" />
 		<link rel="manifest" href="manifest.json" />
 		<link rel="icon" type="image/png" href="favicon.png" />
 		<!-- WebApp Capable -->
@@ -71,13 +71,35 @@
 			</section>
 			<section>
 				<div class="filter-options">
-					<h2>Filter Results</h2>
-					<select id="neighborhoods-select" name="neighborhoods" onchange="updateRestaurants()">
-						<option value="all">All Neighborhoods</option>
-					</select>
-					<select id="cuisines-select" name="cuisines" onchange="updateRestaurants()">
-						<option value="all">All Cuisines</option>
-					</select>
+					<div>
+						<label for="neighborhoods-select">
+							<h2>
+								Filter Results
+							</h2>
+						</label>
+						<select
+							id="neighborhoods-select"
+							name="neighborhoods"
+							onchange="updateRestaurants()"
+						>
+							<option value="all">All Neighborhoods</option>
+						</select>
+					</div>
+
+					<div>
+						<label for="cuisines-select">
+							<h2>
+								Choose cuisines
+							</h2>
+						</label>
+						<select
+							id="cuisines-select"
+							name="cuisines"
+							onchange="updateRestaurants()"
+						>
+							<option value="all">All Cuisines</option>
+						</select>
+					</div>
 				</div>
 				<ul id="restaurants-list"></ul>
 			</section>

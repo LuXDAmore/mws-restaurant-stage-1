@@ -242,7 +242,7 @@ class DBHelper {
 				break;
 			}
 
-			source.media = `(min-width: ${ media }px)`;
+			source.media = `(min-width: ${ media + 80 }px)`;
 			source.type = `image/${ type }`;
 			source.srcset = srcset;
 
@@ -255,7 +255,7 @@ class DBHelper {
 	/**
 	 * Restaurant image URL.
 	 */
-	static imageUrlForRestaurant( restaurant, size = 800, extension = '' ) {
+	static imageUrlForRestaurant( restaurant, size = 400, extension = '' ) {
 
 		const filename = extension ? restaurant.photograph.replace( 'jpg', extension ) : restaurant.photograph;
 

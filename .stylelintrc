@@ -10,6 +10,8 @@
 				"ignore": [
 					"will-change",
 					"font-unicode-range",
+					"css-boxshadow",
+					"object-fit",
 					"transforms3d",
 					"viewport-units",
 					"css-appearance",

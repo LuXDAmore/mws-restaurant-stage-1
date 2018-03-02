@@ -1,3 +1,6 @@
+#maincontent
+	background-color: #ecf0f1;
+
 nav,
 .filter-options,
 #restaurants-list,
@@ -9,12 +12,40 @@ nav,
 	justify-items: center;
 	justify-content: center;
 
+nav
+	padding: 8px;
+	height: auto;
+	min-height: 80px;
+	h1
+		a
+			display: block;
+.nav,
+#footer
+	background-color: #333;
+	color: white;
+
+#footer
+	a
+		color: #f1c40f;
+
 nav,
 .filter-options
 	align-items: center;
 
 .filter-options
 	height: auto;
+	padding-top: 10px;
+
+.filter-options,
+#breadcrumb
+	background-color: darken( #2980b9, 20% );
+
+#breadcrumb
+	li
+		color: white;
+		a
+			color: white;
+			text-decoration: underline;
 
 #restaurant-cuisine,
 #restaurant-hours,
@@ -39,8 +70,18 @@ nav,
 		padding: 0;
 		padding-bottom: 20px;
 		text-align: center;
+		border: 0px;
+		box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12);
 		h1
 			min-height: 41px;
+			color: #2980b9;
+			padding: 0 8px;
+		p
+			padding: 0 8px;
+		a
+			background-color: #2980b9;
+			box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+			border: 0px;
 		picture
 			display: block;
 			object-position: center top;
@@ -48,10 +89,24 @@ nav,
 			max-width: 100%;
 			margin: 0 auto;
 			.restaurant-img
-				max-width: 248px;
+				max-width: 100%;
 				margin: 0 auto;
+				min-height: auto;
+
+#restaurant-name,
+#reviews-container > h2
+	color: #d35400;
+
+#restaurant-container,
+#reviews-container
+	border-color: white;
 
 #restaurant-img
 	width: 800px;
 	max-width: 100%;
 	margin: 0 auto;
+	.restaurant-img
+		width: 800px;
+		max-width: 100%;
+		margin: 0 auto;
+		min-height: auto;

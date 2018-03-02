@@ -15,6 +15,7 @@
 		"build:production": "cross-env NODE_ENV=production gulp build:production",
 		"build": "cross-env NODE_ENV=production gulp build --silent",
 		"build:github:pages": "cross-env NODE_ENV=production gulp github:pages --silent",
+		"bower": "bower install",
 		"gulp": "gulp",
 		"postinstall": "bower install"
 	},

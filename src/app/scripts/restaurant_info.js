@@ -18,15 +18,28 @@ window.initMapRestaurantInfo = () => {
 				window.console.error( error );
 			else {
 
+				const map = document.getElementById( 'map' );
+
 				self.map = new google.maps.Map(
-					document.getElementById( 'map' ),
+					map,
 					{
 						zoom: 16,
 						center: restaurant.latlng,
 						scrollwheel: false,
 					}
 				);
+				google.maps.event.addListenerOnce(
+					self.map,
+					'idle',
+					() => {
+						
+						map.querySelector( 'iframe' ).title = 'Google maps';
+			
+					}
+				);
+
 				fillBreadcrumb();
+
 				DBHelper.mapMarkerForRestaurant( self.restaurant, self.map );
 
 			};
@@ -94,7 +107,7 @@ function fillRestaurantHTML( restaurant = self.restaurant ) {
 	const image = document.createElement( 'img' );
 	image.className = 'restaurant-img';
 	image.alt = 'Restaurant Image';
-	image.src = DBHelper.imageUrlForRestaurant( restaurant, 320 );
+	image.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
 	picture.append( image );
 
 	const cuisine = document.getElementById( 'restaurant-cuisine' );
