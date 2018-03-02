@@ -86,10 +86,16 @@ function fillRestaurantHTML( restaurant = self.restaurant ) {
 	const address = document.getElementById( 'restaurant-address' );
 	address.innerHTML = restaurant.address;
 
-	const image = document.getElementById( 'restaurant-img' );
+	const picture = document.getElementById( 'restaurant-img' );
+	DBHelper.generateSourceInPicture( restaurant, picture );
+	DBHelper.generateSourceInPicture( restaurant, picture, 'jpg' );
+
+	// Fallback
+	const image = document.createElement( 'img' );
 	image.className = 'restaurant-img';
-	image.alt = 'Restaurant';
-	image.src = DBHelper.imageUrlForRestaurant( restaurant, 800 );
+	image.alt = 'Restaurant Image';
+	image.src = DBHelper.imageUrlForRestaurant( restaurant, 320 );
+	picture.append( image );
 
 	const cuisine = document.getElementById( 'restaurant-cuisine' );
 	cuisine.innerHTML = restaurant.cuisine_type;
@@ -197,7 +203,7 @@ function getParameterByName( name, url ) {
 
 	if( ! url )
 		url = window.location.href;
-	
+
 	name = name.replace( /[\[\]]/g, '\\$&' );
 
 	const regex = new RegExp( `[?&]${name}(=([^&#]*)|&|#|$)` )
@@ -209,7 +215,7 @@ function getParameterByName( name, url ) {
 
 	if( ! results[ 2 ] )
 		return '';
-	
+
 	return decodeURIComponent( results[ 2 ].replace( /\+/g, ' ' ) );
 
 };

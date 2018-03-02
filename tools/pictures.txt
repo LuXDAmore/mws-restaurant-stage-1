@@ -6,10 +6,11 @@
 	<source type="image/webp" srcset="examples/image-small.webp, examples/image-small@2x.webp 2x">
 
 	<!-- jpeg images -->
-	<source srcset="examples/image-extralarge.jpg, examples/image-extralarge@2x.jpg 2x" media="(min-width: 960px)">
 	<source srcset="examples/image-large.jpg, examples/image-large@2x.jpg 2x" media="(min-width: 800px)">
+	<source srcset="examples/image-large.jpg, examples/image-large@2x.jpg 2x" media="(min-width: 400px)">
+	<source srcset="examples/image-large.jpg, examples/image-large@2x.jpg 2x" media="(min-width: 320px)">
 
 	<!-- fallback -->
-	<img srcset="examples/image-small.jpg, examples/image-small@2x.jpg 2x">
+	<img srcset="examples/image-small.jpg" alt="Prova">
 
 </picture>

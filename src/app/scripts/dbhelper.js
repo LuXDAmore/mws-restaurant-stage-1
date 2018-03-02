@@ -212,11 +212,52 @@ class DBHelper {
 	};
 
 	/**
+	 * Create srcSet of images.
+	 */
+	static generateSourceInPicture( restaurant, picture, type = 'webp', length = 4 ) {
+
+		for( let i = 0; i <= ( length - 1 ); i ++ ) {
+
+			const source = document.createElement( 'source' );
+
+			let media
+				, srcset = ''
+			;
+			switch( i ) {
+				case 0:
+					media = 800;
+					srcset = DBHelper.imageUrlForRestaurant( restaurant, media, type );
+				break;
+				case 1:
+					media = 480;
+					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) }`;
+				break;
+				case 2:
+					media = 400;
+					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
+				break;
+				case 3:
+					media = 320;
+					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
+				break;
+			}
+
+			source.media = `(min-width: ${ media }px)`;
+			source.type = `image/${ type }`;
+			source.srcset = srcset;
+
+			picture.append( source );
+
+		};
+
+	};
+
+	/**
 	 * Restaurant image URL.
 	 */
-	static imageUrlForRestaurant( restaurant, size = 'normal', extension = '' ) {
+	static imageUrlForRestaurant( restaurant, size = 800, extension = '' ) {
 
-		const filename = extension ? restaurant.photograph.replace( '.jpg', extension ) : restaurant.photograph;
+		const filename = extension ? restaurant.photograph.replace( 'jpg', extension ) : restaurant.photograph;
 
 		return ( `assets/images/${ size }/${ filename }` );
 
