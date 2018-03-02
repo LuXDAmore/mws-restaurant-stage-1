@@ -18,6 +18,7 @@ var gulp = require( 'gulp' )
 	, stylelint = require( 'gulp-stylelint' )
 	, environments = require( 'gulp-environments' )
 	, rev = require( 'gulp-rev' )
+	, imagemin = require( 'gulp-imagemin' )
 	, filter = require( 'gulp-filter' )
 	, html = require( 'gulp-htmlmin' )
 	, htmlhint = require( 'gulp-htmlhint' )
@@ -102,7 +103,10 @@ var gulp = require( 'gulp' )
 			localOnly: true,
 			timestamps: false,
 			logLevel: "silent",
-		}
+		},
+		imagemin: {
+			progressive: true,
+		},
 	}
 	, development = environments.development
 	, production = environments.production
@@ -130,7 +134,6 @@ gulp.task(
 		return del(
 				[
 					options.directory.dist,
-					options.directory.source + '/app/scripts/app.environment.js',
 				],
 				options.clean
 			)
@@ -225,17 +228,55 @@ gulp.task(
 	}
 );
 gulp.task(
-	'copy:assets',
+	'copy:assets:icons',
 	function() {
 
-		gutil.log( gutil.colors.white.bgBlue( ' [ Copy : Assets ] ' ) );
+		gutil.log( gutil.colors.white.bgBlue( ' [ Copy : Assets : Icons ] ' ) );
 
 		return gulp
-			.src( options.directory.source + '/assets/**/*.*' )
-			.pipe( gulp.dest( options.directory.dist + '/assets' ), { overwrite: true } )
+			.src( options.directory.source + '/assets/icons/**/*.*' )
+			.pipe( imagemin( options.imagemin ) )
+			.pipe( gulp.dest( options.directory.dist + '/assets/icons' ), { overwrite: true } )
 		;
 
 	}
+);
+gulp.task(
+	'copy:assets:fonts',
+	function() {
+
+		gutil.log( gutil.colors.white.bgBlue( ' [ Copy : Assets : Fonts ] ' ) );
+
+		return gulp
+			.src( options.directory.source + '/assets/fonts/**/*.*' )
+			.pipe( gulp.dest( options.directory.dist + '/assets/fonts' ), { overwrite: true } )
+		;
+
+	}
+);
+gulp.task(
+	'copy:assets:images',
+	function() {
+
+		gutil.log( gutil.colors.white.bgBlue( ' [ Copy : Assets : Images ] ' ) );
+
+		return gulp
+			.src( options.directory.source + '/assets/images/**/*.*' )
+			.pipe( imagemin( options.imagemin ) )
+			.pipe( gulp.dest( options.directory.dist + '/assets/images' ), { overwrite: true } )
+		;
+
+	}
+);
+gulp.task(
+	'copy:assets',
+	sequence(
+		[
+			'copy:assets:fonts',
+			'copy:assets:icons',
+			'copy:assets:images',
+		]
+	)
 );
 gulp.task(
 	'copy:requirements',
@@ -557,7 +598,7 @@ gulp.task(
 
 		environments.current( development );
 
-		return;
+		return gulp;
 
 	}
 );
@@ -571,7 +612,7 @@ gulp.task(
 
 		environments.current( staging );
 
-		return;
+		return gulp;
 
 	}
 );
@@ -585,7 +626,7 @@ gulp.task(
 
 		environments.current( staging );
 
-		return;
+		return gulp;
 
 	}
 );
@@ -599,7 +640,7 @@ gulp.task(
 
 		environments.current( production );
 
-		return;
+		return gulp;
 
 	}
 );
@@ -696,8 +737,6 @@ gulp.task(
 		// Assets
 		options.other_files.push( options.directory.source + '/assets/**/*.*' );
 		gulp.watch( options.other_files, sequenceASSETS );
-		// Env
-		gulp.watch( './environment.json', [ 'environment:development' ], sequenceJS );
 
 	}
 );
