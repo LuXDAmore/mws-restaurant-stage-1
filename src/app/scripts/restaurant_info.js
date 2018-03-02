@@ -88,7 +88,8 @@ function fillRestaurantHTML( restaurant = self.restaurant ) {
 
 	const image = document.getElementById( 'restaurant-img' );
 	image.className = 'restaurant-img';
-	image.src = DBHelper.imageUrlForRestaurant( restaurant );
+	image.alt = 'Restaurant';
+	image.src = DBHelper.imageUrlForRestaurant( restaurant, 800 );
 
 	const cuisine = document.getElementById( 'restaurant-cuisine' );
 	cuisine.innerHTML = restaurant.cuisine_type;
@@ -205,8 +206,10 @@ function getParameterByName( name, url ) {
 
 	if( ! results )
 		return null;
+
 	if( ! results[ 2 ] )
 		return '';
+	
 	return decodeURIComponent( results[ 2 ].replace( /\+/g, ' ' ) );
 
 };
