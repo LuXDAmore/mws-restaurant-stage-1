@@ -45,7 +45,7 @@ var gulp = require( 'gulp' )
 			minified: false,
 		},
 		css: {
-			level: 1,
+			level: 2,
 		},
 		cssnano: {
 			autoprefixer: {

@@ -138,8 +138,10 @@ window.initMap = () => {
 		self.map,
 		'idle',
 		() => {
-			
-			map.querySelector( 'iframe' ).title = 'Google maps';
+
+			const iframe = map.querySelector( 'iframe' );
+			if( iframe )
+				map.querySelector( 'iframe' ).title = 'Google maps';
 
 		}
 	);

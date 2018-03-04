@@ -6,8 +6,8 @@
 	"start_url": "https://luxdamore.github.io/mws-restaurant-stage-1/",
 	"display": "fullscreen",
 	"orientation": "portrait",
-	"background_color": "#3397DB",
-	"theme_color": "#3397DB",
+	"background_color": "#2980b9",
+	"theme_color": "#2980b9",
 	"icons": [{
 			"src": "assets/icons/icon-72x72.png",
 			"sizes": "72x72",

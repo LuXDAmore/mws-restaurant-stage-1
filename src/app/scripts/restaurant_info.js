@@ -32,9 +32,11 @@ window.initMapRestaurantInfo = () => {
 					self.map,
 					'idle',
 					() => {
-						
-						map.querySelector( 'iframe' ).title = 'Google maps';
-			
+
+						const iframe = map.querySelector( 'iframe' );
+						if( iframe )
+							map.querySelector( 'iframe' ).title = 'Google maps';
+
 					}
 				);
 
@@ -177,17 +179,25 @@ function fillReviewsHTML( reviews = self.restaurant.reviews ) {
 function createReviewHTML( review ) {
 
 	const li = document.createElement( 'li' );
-	const name = document.createElement( 'p' );
+
+	const title = document.createElement( 'p' );
+	const name = document.createElement( 'strong' );
 	name.innerHTML = review.name;
-	li.appendChild( name );
+	title.appendChild( name );
+	li.appendChild( title );
 
-	const date = document.createElement( 'p' );
+	const subtitle = document.createElement( 'p' );
+	const info = document.createElement( 'small' );
+	const date = document.createElement( 'em' );
 	date.innerHTML = review.date;
-	li.appendChild( date );
 
-	const rating = document.createElement( 'p' );
-	rating.innerHTML = `Rating: ${review.rating}`;
-	li.appendChild( rating );
+	const rating = document.createElement( 'span' );
+	rating.innerHTML = `Rating: ${ review.rating }`;
+
+	info.appendChild( date );
+	info.appendChild( rating );
+	subtitle.appendChild( info );
+	li.appendChild( subtitle );
 
 	const comments = document.createElement( 'p' );
 	comments.innerHTML = review.comments;
