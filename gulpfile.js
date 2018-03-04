@@ -310,7 +310,8 @@ gulp.task(
 			.pipe( bower() )
 			.pipe( filterJS )
 			.pipe( gulpif( staging(), sourcemaps.init() ) )
-			.pipe( gulpif( ! development(), uglify( options.uglify ).on( 'error', errorManager ) ) )
+			.pipe( gulpif( ! development(), uglify( options.uglify ) ) )
+			.on( 'error', errorManager )
 			.pipe( concat( nameJS ) )
 			.pipe( rev() )
 			.pipe( gulpif( staging(), sourcemaps.write( '.', options.sourcemaps ) ) )
@@ -319,7 +320,8 @@ gulp.task(
 			.pipe( filterCSS )
 			.pipe( gulpif( staging(), sourcemaps.init() ) )
 			.pipe( concat( nameCSS ) )
-			.pipe( gulpif( ! development(), css( options.css ).on( 'error', errorManager ) ) )
+			.pipe( gulpif( ! development(), css( options.css ) ) )
+			.on( 'error', errorManager )
 			.pipe( rev() )
 			.pipe( gulpif( staging(), sourcemaps.write( '.', options.sourcemaps ) ) )
 			.pipe( gulp.dest( options.directory.dist + '/app/styles' ) )
@@ -343,7 +345,8 @@ gulp.task(
 			.src( options.directory.source + '/themes/**/*.*' )
 			.pipe( filterJS )
 			.pipe( gulpif( staging(), sourcemaps.init() ) )
-			.pipe( gulpif( ! development(), uglify( options.uglify ).on( 'error', errorManager ) ) )
+			.pipe( gulpif( ! development(), uglify( options.uglify ) ) )
+			.on( 'error', errorManager )
 			.pipe( concat( nameJS ) )
 			.pipe( rev() )
 			.pipe( gulpif( ! production(), sourcemaps.write( '.', options.sourcemaps ) ) )
@@ -352,7 +355,8 @@ gulp.task(
 			.pipe( filterCSS )
 			.pipe( gulpif( staging(), sourcemaps.init() ) )
 			.pipe( concat( namecss ) )
-			.pipe( gulpif( ! development(), css( options.css ).on( 'error', errorManager ) ) )
+			.pipe( gulpif( ! development(), css( options.css ) ) )
+			.on( 'error', errorManager )
 			.pipe( rev() )
 			.pipe( gulpif( staging(), sourcemaps.write( '.', options.sourcemaps ) ) )
 			.pipe( gulp.dest( options.directory.dist + '/app/styles' ) )
@@ -378,7 +382,10 @@ gulp.task(
 		;
 
 		swPrecache.write(
-			path.join( options.directory.dist, options.service_worker.name ),
+			path.join(
+				options.directory.dist,
+				options.service_worker.name
+			),
 			config,
 			callback
 		);
@@ -386,27 +393,42 @@ gulp.task(
 	}
 );
 gulp.task(
-	'github:pages:generate-service-worker',
-	function( callback ) {
+	'generate-criticalcss',
+	function() {
 
-		var path = require( 'path' )
-			, swPrecache = require( 'sw-precache' )
-			, config = {
-				staticFileGlobs: [
-					options.directory.git_pages + '/**/**/*.{js,html,css,png,jpg,gif}',
-				],
-				stripPrefix: options.directory.git_pages + '/',
-			}
+		var critical = require( 'critical' ).stream
+			, glob = require( 'glob' )
+			, css_files = glob.sync( options.directory.dist + '/app/styles/**/*.css' )
 		;
 
-		swPrecache.write(
-			path.join(
-				options.directory.git_pages,
-				options.service_worker.name
-			),
-			config,
-			callback
-		);
+		return gulp
+			.src( options.directory.dist + '/*.html' )
+			.pipe(
+				critical(
+					{
+						base: options.directory.dist,
+						inline: true,
+						minify: true,
+						css: css_files,
+						ignore: [
+							'@font-face',
+						],
+						dimensions: [
+							{
+								width: 412,
+								height: 732,
+							},
+							{
+								width: 900,
+								height: 1300,
+							},
+						],
+					}
+				)
+			)
+			.on( 'error', errorManager )
+			.pipe( gulp.dest( options.directory.dist ) )
+		;
 
 	}
 );
@@ -498,8 +520,10 @@ gulp.task(
 					}
 				)
 			)
-			.pipe( htmlhint().on( 'error', errorManager ) )
-			.pipe( html( options.html ).on( 'error', errorManager ) )
+			.pipe( htmlhint() )
+			.on( 'error', errorManager )
+			.pipe( html( options.html ) )
+			.on( 'error', errorManager )
 			.pipe( gulp.dest( options.directory.dist + '/' ) )
 		;
 
@@ -513,8 +537,10 @@ gulp.task(
 
 		return gulp
 			.src( options.directory.source + '/app/**/*.html' )
-			.pipe( htmlhint().on( 'error', errorManager ) )
-			.pipe( html( options.html ).on( 'error', errorManager ) )
+			.pipe( htmlhint() )
+			.on( 'error', errorManager )
+			.pipe( html( options.html ) )
+			.on( 'error', errorManager )
 			.pipe( gulp.dest( options.directory.dist + '/app' ) )
 		;
 
@@ -540,9 +566,11 @@ gulp.task(
 			.pipe( eslint.format() )
 			.pipe( gulpif( production(), eslint.failAfterError() ) )
 			.pipe( gulpif( staging(), sourcemaps.init() ) )
-			.pipe( babel( options.babel ).on( 'error', errorManager ) )
+			.pipe( babel( options.babel ) )
+			.on( 'error', errorManager )
 			.pipe( concat( nameJS ) )
-			.pipe( gulpif( ! development(), uglify( options.uglify ).on( 'error', errorManager ) ) )
+			.pipe( gulpif( ! development(), uglify( options.uglify ) ) )
+			.on( 'error', errorManager )
 			.pipe( rev() )
 			.pipe( gulpif( staging(), sourcemaps.write( '.', options.sourcemaps ) ) )
 			.pipe( gulp.dest( options.directory.dist + '/app/scripts' ) )
@@ -573,11 +601,15 @@ gulp.task(
 			.pipe( gulpif( staging(), sourcemaps.init() ) )
 			.pipe( filterCSS.restore )
 			.pipe( filterSASS )
-			.pipe( sass( options.sass ).on( 'error', errorManager ) )
+			.pipe( sass( options.sass ) )
+			.on( 'error', errorManager )
 			.pipe( filterSASS.restore )
-			.pipe( gulpif( ! development(), cssnano( options.cssnano ).on( 'error', errorManager ) ) )
-			.pipe( gulpif( development(), autoprefixer( options.autoprefixer ).on( 'error', errorManager ) ) )
-			.pipe( stylelint( options.stylelint ).on( 'error', errorManager ) )
+			.pipe( gulpif( ! development(), cssnano( options.cssnano ) ) )
+			.on( 'error', errorManager )
+			.pipe( gulpif( development(), autoprefixer( options.autoprefixer ) ) )
+			.on( 'error', errorManager )
+			.pipe( stylelint( options.stylelint ) )
+			.on( 'error', errorManager )
 			.pipe( concat( nameCSS ) )
 			.pipe( rev() )
 			.pipe( gulpif( staging(), sourcemaps.write( '.', options.sourcemaps ) ) )
@@ -749,11 +781,11 @@ gulp.task( 'dev', [ 'serve' ] );
 gulp.task( 'build:development', sequence( 'clean:all', 'environment:development', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' ) );
 gulp.task( 'build:testing', sequence( 'clean:all', 'environment:testing', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' ) );
 gulp.task( 'build:staging', sequence( 'clean:all', 'environment:staging', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' ) );
-gulp.task( 'build', sequence( 'clean', 'environment:production', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html' ], 'build:inject', 'generate-service-worker' ) );
+gulp.task( 'build', sequence( 'clean', 'environment:production', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html' ], 'build:inject', 'generate-criticalcss', 'generate-service-worker' ) );
 gulp.task( 'default', [ 'build' ] );
 
 // Github Pages
-gulp.task( 'github:pages', sequence( 'build', 'github:pages:clean', 'github:pages:copy', 'github:pages:replace', 'github:pages:generate-service-worker' ) );
+gulp.task( 'github:pages', sequence( 'build', 'github:pages:clean', 'github:pages:copy', 'github:pages:replace' ) );
 
 // Exports Gulp if you use 'Gulp Devtools' in Chrome DevTools
 module.exports = gulp;
