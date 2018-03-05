@@ -6,6 +6,7 @@
 	"scripts": {
 		"test": "test",
 		"clean": "gulp clean:all",
+		"clear": "gulp clean:all",
 		"serve": "cross-env NODE_ENV=development gulp serve",
 		"dev": "cross-env NODE_ENV=development gulp serve",
 		"start": "cross-env NODE_ENV=development gulp serve",

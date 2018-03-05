@@ -105,7 +105,9 @@ var gulp = require( 'gulp' )
 			logLevel: "silent",
 		},
 		imagemin: {
+			optimizationLevel: 7,
 			progressive: true,
+			interlaced: true,
 		},
 	}
 	, development = environments.development
@@ -375,9 +377,9 @@ gulp.task(
 			, swPrecache = require( 'sw-precache' )
 			, config = {
 				staticFileGlobs: [
-					options.directory.dist + '/**/*.{js,html,css,png,jpg,gif}',
+					options.directory.dist + '/**/**/*.{js,json,html,css,webp,png,jpg,gif}',
 				],
-				stripPrefix: options.directory.dist,
+				stripPrefix: options.directory.dist + '/',
 			}
 		;
 
