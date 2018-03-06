@@ -199,6 +199,7 @@
 		"module": true,
 		"require": true,
 		"google": true,
-		"moment": true
+		"moment": true,
+		"LazyLoad": true
 	}
 }

@@ -81,6 +81,8 @@ function fetchRestaurantFromURL( callback ) {
 
 				};
 				fillRestaurantHTML();
+				DBHelper.lazyLoadImages();
+
 				callback( null, restaurant )
 
 			}
@@ -109,7 +111,7 @@ function fillRestaurantHTML( restaurant = self.restaurant ) {
 	const image = document.createElement( 'img' );
 	image.className = 'restaurant-img';
 	image.alt = 'Restaurant Image';
-	image.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
+	image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
 	picture.append( image );
 
 	const cuisine = document.getElementById( 'restaurant-cuisine' );

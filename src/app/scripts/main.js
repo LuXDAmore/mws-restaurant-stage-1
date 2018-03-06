@@ -206,7 +206,10 @@ function resetRestaurants( restaurants ) {
 function fillRestaurantsHTML( restaurants = self.restaurants ) {
 
 	const ul = document.getElementById( 'restaurants-list' );
+
 	restaurants.forEach( restaurant => ul.append( createRestaurantHTML( restaurant ) ) );
+	DBHelper.lazyLoadImages();
+
 	addMarkersToMap();
 
 };
@@ -228,7 +231,7 @@ function createRestaurantHTML( restaurant ) {
 	const image = document.createElement( 'img' );
 	image.className = 'restaurant-img';
 	image.alt = 'Restaurant Image';
-	image.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
+	image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
 	picture.append( image );
 
 	// Title

@@ -212,7 +212,7 @@ class DBHelper {
 	};
 
 	/**
-	 * Create srcSet of images.
+	 * Create srcSet of images in Picture.
 	 */
 	static generateSourceInPicture(
 		restaurant,
@@ -254,13 +254,26 @@ class DBHelper {
 
 			source.media = `(min-width: ${ media }px)`;
 			source.type = `image/${ type }`;
-			source.srcset = srcset;
+			source.dataset.srcset = srcset;
 
 			picture.append( source );
 
 		};
 
 	};
+
+	/**
+	 * Start the Lazy Loading of images
+	 */
+	static lazyLoadImages() {
+
+		new LazyLoad(
+			{
+				elements_selector: '.restaurant-img',
+			}
+		);
+
+	}
 
 	/**
 	 * Restaurant image URL.
