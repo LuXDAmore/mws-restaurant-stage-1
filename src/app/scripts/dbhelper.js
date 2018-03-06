@@ -214,7 +214,13 @@ class DBHelper {
 	/**
 	 * Create srcSet of images.
 	 */
-	static generateSourceInPicture( restaurant, picture, type = 'webp', length = 4 ) {
+	static generateSourceInPicture(
+		restaurant,
+		picture,
+		type = 'webp',
+		length = 4,
+		retina = false
+	) {
 
 		for( let i = 0; i <= ( length - 1 ); i ++ ) {
 
@@ -234,15 +240,19 @@ class DBHelper {
 				break;
 				case 2:
 					media = 400;
-					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
+					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x`;
+					if( retina )
+						srcset += `, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
 				break;
 				case 3:
 					media = 320;
-					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
+					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x`;
+					if( retina )
+						srcset = `, ${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
 				break;
 			}
 
-			source.media = `(min-width: ${ media + 80 }px)`;
+			source.media = `(min-width: ${ media }px)`;
 			source.type = `image/${ type }`;
 			source.srcset = srcset;
 

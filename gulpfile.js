@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require( 'gulp' )
 	, sequence = require( 'gulp-sequence' ).use( gulp )
 	, eslint = require( 'gulp-eslint' )
