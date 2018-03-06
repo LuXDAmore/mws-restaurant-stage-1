@@ -273,7 +273,7 @@ class DBHelper {
 			}
 		);
 
-	}
+	};
 
 	/**
 	 * Restaurant image URL.
