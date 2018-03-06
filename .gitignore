@@ -5,6 +5,7 @@ dist
 .tmp
 .sass-cache
 .gitattributes
+Thumbs.db
 
 # Logs
 logs

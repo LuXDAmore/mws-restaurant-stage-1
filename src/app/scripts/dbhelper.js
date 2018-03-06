@@ -218,39 +218,33 @@ class DBHelper {
 		restaurant,
 		picture,
 		type = 'webp',
+		element = 'source',
 		length = 4,
 		retina = false
 	) {
 
 		for( let i = 0; i <= ( length - 1 ); i ++ ) {
 
-			const source = document.createElement( 'source' );
+			const source = document.createElement( element );
 
-			let media
+			let media = 400
 				, srcset = ''
 			;
 			switch( i ) {
 				case 0:
 					media = 800;
-					srcset = DBHelper.imageUrlForRestaurant( restaurant, media, type );
 				break;
 				case 1:
 					media = 480;
-					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) }`;
-				break;
-				case 2:
-					media = 400;
-					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x`;
-					if( retina )
-						srcset += `, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
 				break;
 				case 3:
 					media = 320;
-					srcset = `${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x`;
-					if( retina )
-						srcset = `, ${ DBHelper.imageUrlForRestaurant( restaurant, media, type ) } 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
 				break;
 			}
+
+			srcset = DBHelper.imageUrlForRestaurant( restaurant, media, type );
+			if( retina )
+				srcset += ` 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) }`;
 
 			source.media = `(min-width: ${ media }px)`;
 			source.type = `image/${ type }`;
