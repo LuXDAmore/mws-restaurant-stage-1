@@ -120,16 +120,32 @@
 		<script>
 			if(
 				'serviceWorker' in navigator
-				&& ! window.location.href.includes( 'localhost' )
+				&& [ 'localhost', '127' ].indexOf( location.hostname ) === -1
 			) {
 
 				navigator
 					.serviceWorker
 					.register( 'sw.js' )
 					.then(
-						function() {
+						function( reg ) {
 
 							window.console.log( 'Service Worker Registered' );
+
+							reg.onupdatefound = function () {
+
+								var installingWorker = reg.installing;
+
+								installingWorker.onstatechange = function () {
+
+									switch( installingWorker.state ) {
+										case 'installed':
+											window.alert( 'There is an update available for this app, please reload.' );
+										break;
+									};
+
+								};
+
+							};
 
 						}
 					)

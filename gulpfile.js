@@ -379,9 +379,12 @@ gulp.task(
 			, swPrecache = require( 'sw-precache' )
 			, config = {
 				staticFileGlobs: [
-					options.directory.dist + '/**/**/*.{js,json,html,css,webp,png,jpg,gif}',
+					options.directory.dist + '/**/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2,mp3,json}',
 				],
 				stripPrefix: options.directory.dist + '/',
+				maximumFileSizeToCacheInBytes: [
+					'52428800',
+				]
 			}
 		;
 
