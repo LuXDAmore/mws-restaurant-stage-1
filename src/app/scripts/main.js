@@ -1,3 +1,5 @@
+'use strict';
+
 /* eslint-disable no-unused-vars */
 let restaurants
 	, neighborhoods
@@ -7,8 +9,6 @@ let map
 	, markers = []
 ;
 /* eslint-enable no-unused-vars */
-
-'use strict';
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -27,6 +27,43 @@ document.addEventListener(
 
 	}
 );
+
+/**
+ * Initialize Google map, called from HTML.
+ */
+window.initMap = () => {
+
+	const map = document.getElementById( 'map' );
+
+	let loc = {
+		lat: 40.722216,
+		lng: - 73.987501,
+	};
+
+	self.map = new google.maps.Map(
+		map,
+		{
+			zoom: 12,
+			center: loc,
+			scrollwheel: false,
+		}
+	);
+
+	google.maps.event.addListenerOnce(
+		self.map,
+		'idle',
+		() => {
+
+			const iframe = map.querySelector( 'iframe' );
+			if( iframe )
+				map.querySelector( 'iframe' ).title = 'Google maps';
+
+		}
+	);
+
+	updateRestaurants();
+
+};
 
 /**
  * Fetch all neighborhoods and set their HTML.
@@ -110,43 +147,6 @@ function fillCuisinesHTML( cuisines = self.cuisines ) {
 
 		}
 	);
-
-};
-
-/**
- * Initialize Google map, called from HTML.
- */
-window.initMap = () => {
-
-	const map = document.getElementById( 'map' );
-
-	let loc = {
-		lat: 40.722216,
-		lng: - 73.987501,
-	};
-
-	self.map = new google.maps.Map(
-		map,
-		{
-			zoom: 12,
-			center: loc,
-			scrollwheel: false,
-		}
-	);
-
-	google.maps.event.addListenerOnce(
-		self.map,
-		'idle',
-		() => {
-
-			const iframe = map.querySelector( 'iframe' );
-			if( iframe )
-				map.querySelector( 'iframe' ).title = 'Google maps';
-
-		}
-	);
-
-	updateRestaurants();
 
 };
 
