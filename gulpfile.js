@@ -546,7 +546,7 @@ gulp.task(
 						addRootSlash: false,
 						transform: function( filepath ) {
 
-							return '<script src="' + filepath + '"></script>';
+							return '<script src="' + filepath + '" async defer></script>';
 
 						},
 					}
