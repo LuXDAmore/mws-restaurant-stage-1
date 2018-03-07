@@ -492,38 +492,64 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgCyan( ' [ Build : Inject ] ' ) );
 
-		var injectable = [
-				options.directory.dist + '/app/styles/vendor-*.css',
-				options.directory.dist + '/app/styles/themes-*.css',
-				options.directory.dist + '/app/styles/app-*.css',
-				options.directory.dist + '/app/scripts/vendor-*.js',
-				options.directory.dist + '/app/scripts/themes-*.js',
-				options.directory.dist + '/app/scripts/app-*.js',
-			]
-			, injectable_only_in_production = [
-				'',
-			]
-			, inject_strings = injectable_only_in_production.join( '' )
-			, sources = gulp.src( injectable, options.read )
+		var injectableCSS = gulp.src(
+				[
+					options.directory.dist + '/app/styles/vendor-*.css',
+					options.directory.dist + '/app/styles/themes-*.css',
+					options.directory.dist + '/app/styles/app-*.css',
+				],
+				options.read
+			)
+			, injectableJS = gulp.src(
+				[
+					options.directory.dist + '/app/scripts/vendor-*.js',
+					options.directory.dist + '/app/scripts/themes-*.js',
+				],
+				options.read
+			)
+			, injectableJSAsync = gulp.src( [ options.directory.dist + '/app/scripts/app-*.js' ], options.read )
 		;
 
 		return gulp
 			.src( options.directory.source + '/*.html' )
 			.pipe(
-				gulpif(
-					production(),
-					injectString.after( '</title>', inject_strings )
-				)
-			)
-			.pipe(
 				inject(
-					sources,
+					injectableCSS,
 					{
+						starttag: '<!-- inject:{{ext}} -->',
 						ignorePath: 'dist',
 						addRootSlash: false,
 					}
 				)
 			)
+			.on( 'error', errorManager )
+			.pipe(
+				inject(
+					injectableJS,
+					{
+						starttag: '<!-- inject:{{ext}} -->',
+						ignorePath: 'dist',
+						addRootSlash: false,
+					}
+				)
+			)
+			.on( 'error', errorManager )
+			.pipe(
+				inject(
+					injectableJSAsync,
+					{
+						starttag: '<!-- inject:async:{{ext}} -->',
+						ignorePath: 'dist',
+						addRootSlash: false,
+						transform: function( filepath ) {
+
+							return '<script src="' + filepath + '"></script>';
+
+						},
+					}
+				)
+			)
+			.on( 'error', errorManager )
 			.pipe( htmlhint() )
 			.on( 'error', errorManager )
 			.pipe( html( options.html ) )

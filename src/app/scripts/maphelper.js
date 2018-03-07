@@ -1,12 +1,11 @@
 'use strict';
 
-let setUp = false;
 
 /**
  * Common gmaps helper functions.
  */
 /* eslint-disable no-unused-vars */
-class GMaps {
+class GMapHelper {
 	/* eslint-enable no-unused-vars */
 
 	/**
@@ -17,67 +16,45 @@ class GMaps {
 	/**
 	 * Fetch all restaurants.
 	 */
-	static load( apiKey, callBack, version, libraries, loadCn ) {
+	static load( config = {} ) {
 
-		if( typeof document === 'undefined' ) {
+		if(
+			typeof document === 'undefined'
+			|| document.getElementById( 'google-maps-script' )
+		) {
 
 			// Do nothing if run from server-side
 			return;
 
 		};
 
-		if( ! setUp ) {
+		const googleMapScript = document.createElement( 'script' );
 
-			const googleMapScript = document.createElement( 'script' );
+		const default_config = {
+			key: 'AIzaSyBG8LXp4osGIgtI1SxUafmy6fPsgMq414c',
+			libraries: 'places',
+			callback: '',
+		};
 
-			let options = {}
+		const options = Object.assign(
+			{},
+			default_config,
+			config
+		);
 
-			if( typeof apiKey === 'string' )
-				options.key = apiKey
-			else if( typeof apiKey === 'object' ) {
+		let url = `https://maps.googleapis.com/maps/api/js?${
+			Object
+				.keys( options )
+				.map( key => encodeURIComponent( key ) + '=' + encodeURIComponent( options[ key ] ) )
+				.join( '&' )
+		}`;
 
-				for( let k in apiKey )
-					options[ k ] = apiKey[ k ];
+		googleMapScript.setAttribute( 'id', 'google-maps-script' );
+		googleMapScript.setAttribute( 'src', url );
+		googleMapScript.setAttribute( 'async', '' );
+		googleMapScript.setAttribute( 'defer', '' );
 
-			} else
-				throw new Error( 'apiKey should either be a string or an object' );
-
-
-			// Libraries
-			let librariesPath = '';
-
-			if( libraries && libraries.length > 0 ) {
-
-				librariesPath = libraries.join( ',' );
-				options[ 'libraries' ] = librariesPath;
-
-			} else if( Array.prototype.isPrototypeOf( options.libraries ) )
-				options.libraries = options.libraries.join( ',' );
-
-			options[ 'callback' ] = callBack;
-
-			let baseUrl = 'https://maps.googleapis.com/';
-
-			if( typeof loadCn === 'boolean' && loadCn === true )
-				baseUrl = 'http://maps.google.cn/';
-
-			let url = `${ baseUrl }maps/api/js?${
-				Object
-					.keys( options )
-					.map( key => encodeURIComponent( key ) + '=' + encodeURIComponent( options[ key ] ) )
-					.join( '&' )
-			}`;
-
-			if( version )
-				url = url + '&v=' + version;
-
-			googleMapScript.setAttribute( 'src', url );
-			googleMapScript.setAttribute( 'async', '' );
-			googleMapScript.setAttribute( 'defer', '' );
-			document.body.appendChild( googleMapScript );
-
-		} else
-			throw new Error( 'You already started the loading of google maps' );
+		document.body.appendChild( googleMapScript );
 
 	};
 

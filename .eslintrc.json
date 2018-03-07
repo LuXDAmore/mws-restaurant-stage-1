@@ -196,6 +196,7 @@
 		"$": true,
 		"jQuery": true,
 		"DBHelper": true,
+		"GMapHelper": true,
 		"module": true,
 		"require": true,
 		"google": true,

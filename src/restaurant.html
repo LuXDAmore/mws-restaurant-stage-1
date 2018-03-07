@@ -78,7 +78,10 @@
 		<!-- Beginning main -->
 		<main id="maincontent">
 			<!-- Beginning map -->
-			<section id="map-container" aria-hidden="true">
+			<section
+				id="map-container"
+				aria-hidden="true"
+			>
 				<div id="map"></div>
 			</section>
 			<!-- End map -->
@@ -111,7 +114,9 @@
 		<!-- inject:js -->
 		<!-- endinject -->
 
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBG8LXp4osGIgtI1SxUafmy6fPsgMq414c&libraries=places&callback=initMapRestaurantInfo"></script>
+		<!-- inject:async:js -->
+		<!-- endinject -->
+
 		<script>
 			if(
 				'serviceWorker' in navigator
@@ -125,6 +130,13 @@
 						function() {
 
 							window.console.log( 'Service Worker Registered' );
+
+						}
+					)
+					.catch(
+						function() {
+
+							window.console.error( 'Service Worker NOT Registered' );
 
 						}
 					)

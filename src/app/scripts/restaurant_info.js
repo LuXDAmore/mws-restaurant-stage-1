@@ -1,10 +1,25 @@
+'use strict';
+
+const IS_RESTAURANT = window.location.href.includes( 'restaurant.html' );
+
 /* eslint-disable no-unused-vars */
 let restaurant
 	, map
 ;
 /* eslint-enableno-unused-vars */
 
-'use strict';
+/**
+ * Fetch neighborhoods and cuisines as soon as the page is loaded.
+ */
+document.addEventListener(
+	'DOMContentLoaded',
+	() => {
+
+		if( IS_RESTAURANT )
+			GMapHelper.load( { callback: 'initMapRestaurantInfo' } );
+
+	}
+);
 
 /**
  * Initialize Google map, called from HTML.
@@ -81,6 +96,7 @@ function fetchRestaurantFromURL( callback ) {
 
 				};
 				fillRestaurantHTML();
+
 				DBHelper.lazyLoadImages();
 
 				callback( null, restaurant )
@@ -104,6 +120,7 @@ function fillRestaurantHTML( restaurant = self.restaurant ) {
 	address.innerHTML = restaurant.address;
 
 	const picture = document.getElementById( 'restaurant-img' );
+
 	DBHelper.generateSourceInPicture( restaurant, picture );
 	DBHelper.generateSourceInPicture( restaurant, picture, 'jpg' );
 

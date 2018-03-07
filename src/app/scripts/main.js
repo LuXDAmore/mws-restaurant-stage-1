@@ -1,5 +1,7 @@
 'use strict';
 
+const IS_INDEX = ! window.location.href.includes( 'restaurant.html' );
+
 /* eslint-disable no-unused-vars */
 let restaurants
 	, neighborhoods
@@ -17,13 +19,14 @@ document.addEventListener(
 	'DOMContentLoaded',
 	() => {
 
-		const neighborhoods = document.getElementById( 'neighborhoods-select' );
-		if( neighborhoods )
-			fetchNeighborhoods();
+		if( IS_INDEX ) {
 
-		const cuisines = document.getElementById( 'cuisines-select' );
-		if( cuisines )
+			GMapHelper.load( { callback: 'initMap' } );
+
+			fetchNeighborhoods();
 			fetchCuisines();
+
+		};
 
 	}
 );

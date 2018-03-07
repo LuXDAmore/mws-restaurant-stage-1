@@ -261,11 +261,15 @@ class DBHelper {
 	 */
 	static lazyLoadImages() {
 
-		new LazyLoad(
-			{
-				elements_selector: '.restaurant-img',
-			}
-		);
+		if( typeof LazyLoad !== 'undefined' ) {
+
+			new LazyLoad(
+				{
+					elements_selector: '.restaurant-img',
+				}
+			);
+
+		};
 
 	};
 
