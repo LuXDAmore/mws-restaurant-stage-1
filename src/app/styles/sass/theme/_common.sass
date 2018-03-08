@@ -22,13 +22,13 @@ nav,
 	margin-left: auto;
 	margin-right: auto;
 
-.restaurant-img
-	max-width: 100%;
-
 picture
-	max-width: 100%;
 	display: block;
-	min-height: auto;
+	object-position: center top;
+	object-fit: cover;
+	max-width: 100%;
+	overflow: hidden;
+	margin: 0 auto;
 
 #map-container
 	background-color: transparent;
@@ -38,6 +38,9 @@ picture
 	background-image: url( '../../assets/images/placeholder/gmap-400.jpg' );
 	@media screen and (min-width: 600px)
 		background-image: url( '../../assets/images/placeholder/gmap-800.jpg' );
+
+	#map
+		height: 450px;
 
 .webp
 	#map-container
