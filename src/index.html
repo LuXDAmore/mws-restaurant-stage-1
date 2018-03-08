@@ -123,29 +123,59 @@
 		<!-- endinject -->
 
 		<script>
-			if(
-				'serviceWorker' in navigator
-				&& [ 'localhost', '127' ].indexOf( location.hostname ) === -1
+			'use strict';
+
+			if( 'serviceWorker' in navigator
+				&& window.location.protocol === 'https:'
+				&& [ 'localhost', '127' ].indexOf( window.location.hostname ) === - 1
 			) {
 
-				navigator
-					.serviceWorker
-					.register( 'sw.js' )
-					.then(
-						function() {
+				window.addEventListener(
+					'load',
+					function() {
 
-							window.console.log( 'Service Worker Registered' );
+						navigator.serviceWorker
+							.register( 'sw.js' )
+							.then(
+								function( registration ) {
 
-						}
-					)
-					.catch(
-						function() {
+									if( typeof registration.update == 'function' )
+										registration.update();
 
-							window.console.error( 'Service Worker NOT Registered' );
+									registration.onupdatefound = function() {
 
-						}
-					)
-				;
+										var installingWorker = registration.installing;
+
+										installingWorker.onstatechange = function() {
+
+											switch( installingWorker.state ) {
+												case 'installed':
+													if( navigator.serviceWorker.controller )
+														window.console.info( 'New or updated content is available.' );
+													else
+														window.console.info( 'Content is cached, and will be available for offline use the next time the page is loaded.' );
+												break;
+												case 'redundant':
+													window.console.error( 'The installing service worker became redundant.' );
+												break;
+											};
+
+										};
+
+									};
+
+								}
+							).catch(
+								function( e ) {
+
+									window.console.error( 'Error during service worker registration:', e );
+
+								}
+							)
+						;
+
+					}
+				);
 
 			};
 		</script>
