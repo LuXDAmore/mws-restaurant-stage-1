@@ -132,25 +132,9 @@
 					.serviceWorker
 					.register( 'sw.js' )
 					.then(
-						function( reg ) {
+						function() {
 
 							window.console.log( 'Service Worker Registered' );
-
-							reg.onupdatefound = function () {
-
-								var installingWorker = reg.installing;
-
-								installingWorker.onstatechange = function () {
-
-									switch( installingWorker.state ) {
-										case 'installed':
-											window.console.info( 'There is an update available for this app, please reload.' );
-										break;
-									};
-
-								};
-
-							};
 
 						}
 					)

@@ -495,31 +495,25 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgCyan( ' [ Build : Inject ] ' ) );
 
-		var injectableCSS = gulp.src(
+		var injectable = gulp.src(
 				[
 					options.directory.dist + '/app/styles/vendor-*.css',
 					options.directory.dist + '/app/styles/themes-*.css',
 					options.directory.dist + '/app/styles/app-*.css',
-				],
-				options.read
-			)
-			, injectableJS = gulp.src(
-				[
 					options.directory.dist + '/app/scripts/vendor-*.js',
 					options.directory.dist + '/app/scripts/themes-*.js',
 				],
 				options.read
 			)
-			, injectableJSAsync = gulp.src( [ options.directory.dist + '/app/scripts/app-*.js' ], options.read )
+			, injectableAsync = gulp.src( options.directory.dist + '/app/scripts/app-*.js', options.read )
 		;
 
 		return gulp
 			.src( options.directory.source + '/*.html' )
 			.pipe(
 				inject(
-					injectableCSS,
+					injectable,
 					{
-						starttag: '<!-- inject:{{ext}} -->',
 						ignorePath: 'dist',
 						addRootSlash: false,
 					}
@@ -528,18 +522,7 @@ gulp.task(
 			.on( 'error', errorManager )
 			.pipe(
 				inject(
-					injectableJS,
-					{
-						starttag: '<!-- inject:{{ext}} -->',
-						ignorePath: 'dist',
-						addRootSlash: false,
-					}
-				)
-			)
-			.on( 'error', errorManager )
-			.pipe(
-				inject(
-					injectableJSAsync,
+					injectableAsync,
 					{
 						starttag: '<!-- inject:async:{{ext}} -->',
 						ignorePath: 'dist',
