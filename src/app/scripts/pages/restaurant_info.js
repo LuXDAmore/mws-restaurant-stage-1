@@ -9,23 +9,6 @@ let restaurant
 const IS_RESTAURANT = window && window.location.href.indexOf( 'restaurant.html' ) !== - 1;
 
 /**
- * Fetch restaurant data
- */
-const ready = function() {
-
-	if(
-		IS_RESTAURANT
-		&& typeof GMapHelper !== 'undefined'
-		&& typeof DBHelper !== 'undefined'
-	)
-		GMapHelper.load( { callback: 'initMapRestaurantInfo' } );
-
-
-};
-ready();
-// document.addEventListener( 'DOMContentLoaded', ready, false );
-
-/**
  * Initialize Google map, called from HTML.
  */
 window.initMapRestaurantInfo = () => {
@@ -69,6 +52,23 @@ window.initMapRestaurantInfo = () => {
 	);
 
 };
+
+/**
+ * Fetch restaurant data
+ */
+const ready = function() {
+
+	if(
+		IS_RESTAURANT
+		&& typeof GMapHelper !== 'undefined'
+		&& typeof DBHelper !== 'undefined'
+	)
+		GMapHelper.load( { callback: 'initMapRestaurantInfo' } );
+
+
+};
+ready();
+// document.addEventListener( 'DOMContentLoaded', ready, false );
 
 /**
  * Get current restaurant from page URL.

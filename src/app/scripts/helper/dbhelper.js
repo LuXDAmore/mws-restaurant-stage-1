@@ -29,6 +29,7 @@ class DBHelper {
 		else {
 
 			const xhr = new XMLHttpRequest();
+
 			xhr.open( 'GET', DBHelper.DATABASE_URL );
 			xhr.onload = () => {
 
@@ -41,7 +42,7 @@ class DBHelper {
 
 				} else { // Oops!. Got an error from server.
 
-					const error = ( `Request failed. Returned status of ${xhr.status}` );
+					const error = ( `Request failed. Returned status of ${ xhr.status }` );
 					callback( error, null );
 
 				};

@@ -47,7 +47,11 @@ var gulp = require( 'gulp' )
 			minified: false,
 		},
 		css: {
-			level: 2,
+			level: {
+				2: {
+					all: true,
+				},
+			},
 		},
 		cssnano: {
 			autoprefixer: {
@@ -529,7 +533,7 @@ gulp.task(
 						addRootSlash: false,
 						transform: function( filepath ) {
 
-							return '<script src="' + filepath + '" async defer></script>';
+							return '<script src="' + filepath + '" async></script>';
 
 						},
 					}

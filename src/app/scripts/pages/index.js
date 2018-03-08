@@ -13,28 +13,6 @@ let map
 const IS_INDEX = window && window.location.href.indexOf( 'restaurant.html' ) === - 1;
 
 /**
- * Fetch neighborhoods and cuisines as soon as the page is loaded.
- */
-const ready = function() {
-
-	if(
-		IS_INDEX
-		&& typeof GMapHelper !== 'undefined'
-		&& typeof DBHelper !== 'undefined'
-	) {
-
-		GMapHelper.load( { callback: 'initMap' } );
-
-		fetchNeighborhoods();
-		fetchCuisines();
-
-	};
-
-};
-ready();
-// document.addEventListener( 'DOMContentLoaded', ready, false );
-
-/**
  * Initialize Google map, called from HTML.
  */
 window.initMap = () => {
@@ -70,6 +48,34 @@ window.initMap = () => {
 	updateRestaurants();
 
 };
+
+/**
+ * Fetch neighborhoods and cuisines as soon as the page is loaded.
+ */
+const ready = function() {
+
+	if(
+		IS_INDEX
+		&& typeof GMapHelper !== 'undefined'
+		&& typeof DBHelper !== 'undefined'
+	) {
+
+		GMapHelper.load( { callback: 'initMap' } );
+
+		DBHelper.fetchRestaurants(
+			() => {
+
+				fetchNeighborhoods();
+				fetchCuisines();
+
+			}
+		);
+
+	};
+
+};
+ready();
+// document.addEventListener( 'DOMContentLoaded', ready, false );
 
 /**
  * Fetch all neighborhoods and set their HTML.
