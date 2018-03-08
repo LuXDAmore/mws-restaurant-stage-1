@@ -7,7 +7,6 @@
 class DBHelper {
 
 	static restaurants = [];
-	static isFetching = false;
 
 	/* eslint-enable no-unused-vars */
 	/**
@@ -25,11 +24,9 @@ class DBHelper {
 	 */
 	static fetchRestaurants( callback ) {
 
-		if( this.isFetching || this.restaurants.length )
+		if( this.restaurants.length )
 			callback( null, this.restaurants );
 		else {
-
-			this.isFetching = true;
 
 			const xhr = new XMLHttpRequest();
 			xhr.open( 'GET', DBHelper.DATABASE_URL );
