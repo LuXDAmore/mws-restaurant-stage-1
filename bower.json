@@ -15,6 +15,7 @@
     "tests"
   ],
   "dependencies": {
-    "vanilla-lazyload": "^10.4.2"
+    "vanilla-lazyload": "^10.4.2",
+    "webp-support": "^1.0.4"
   }
 }
