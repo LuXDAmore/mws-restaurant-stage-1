@@ -28,8 +28,6 @@ class GMapHelper {
 
 		};
 
-		const googleMapScript = document.createElement( 'script' );
-
 		const default_config = {
 			key: 'AIzaSyBG8LXp4osGIgtI1SxUafmy6fPsgMq414c',
 			libraries: 'places',
@@ -49,12 +47,14 @@ class GMapHelper {
 				.join( '&' )
 		}`;
 
-		googleMapScript.setAttribute( 'id', 'google-maps-script' );
-		googleMapScript.setAttribute( 'src', url );
-		googleMapScript.setAttribute( 'async', '' );
-		googleMapScript.setAttribute( 'defer', '' );
+		const GMapScript = document.createElement( 'script' );
 
-		document.body.appendChild( googleMapScript );
+		GMapScript.id = 'google-maps-script';
+		GMapScript.src = url;
+		GMapScript.async = '';
+		GMapScript.defer = '';
+
+		document.body.appendChild( GMapScript );
 
 	};
 

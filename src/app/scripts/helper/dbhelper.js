@@ -6,6 +6,9 @@
 /* eslint-disable no-unused-vars */
 class DBHelper {
 
+	static restaurants = [];
+	static isFetching = false;
+
 	/* eslint-enable no-unused-vars */
 	/**
 	 * Database URL.
@@ -13,8 +16,7 @@ class DBHelper {
 	 */
 	static get DATABASE_URL() {
 
-		// const port = 4000;
-		return `data/restaurants.json`;
+		return 'data/restaurants.json';
 
 	};
 
@@ -23,26 +25,35 @@ class DBHelper {
 	 */
 	static fetchRestaurants( callback ) {
 
-		let xhr = new XMLHttpRequest();
-		xhr.open( 'GET', DBHelper.DATABASE_URL );
-		xhr.onload = () => {
+		if( this.isFetching || this.restaurants.length )
+			callback( null, this.restaurants );
+		else {
 
-			if( xhr.status === 200 ) { // Got a success response from server!
+			this.isFetching = true;
 
-				const json = JSON.parse( xhr.responseText );
-				const restaurants = json.restaurants;
-				callback( null, restaurants );
+			const xhr = new XMLHttpRequest();
+			xhr.open( 'GET', DBHelper.DATABASE_URL );
+			xhr.onload = () => {
 
-			} else { // Oops!. Got an error from server.
+				if( xhr.status === 200 ) { // Got a success response from server!
 
-				const error = ( `Request failed. Returned status of ${xhr.status}` );
-				callback( error, null );
+					const json = JSON.parse( xhr.responseText );
+					this.restaurants = json.restaurants;
+
+					callback( null, this.restaurants );
+
+				} else { // Oops!. Got an error from server.
+
+					const error = ( `Request failed. Returned status of ${xhr.status}` );
+					callback( error, null );
+
+				};
 
 			};
 
-		};
+			xhr.send();
 
-		xhr.send();
+		};
 
 	};
 
