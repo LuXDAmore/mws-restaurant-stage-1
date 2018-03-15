@@ -113,7 +113,6 @@ var gulp = require( 'gulp' )
 		imagemin: {
 			optimizationLevel: 7,
 			progressive: true,
-			interlaced: true,
 		},
 	}
 	, development = environments.development
@@ -242,7 +241,7 @@ gulp.task(
 		gutil.log( gutil.colors.white.bgBlue( ' [ Copy : Assets : Icons ] ' ) );
 
 		return gulp
-			.src( options.directory.source + '/assets/icons/**/*.*' )
+			.src( options.directory.source + '/assets/icons/**/*.{png,jpg,gif,svg,webp}' )
 			.pipe( imagemin( options.imagemin ) )
 			.pipe( gulp.dest( options.directory.dist + '/assets/icons' ), { overwrite: true } )
 		;
@@ -269,7 +268,7 @@ gulp.task(
 		gutil.log( gutil.colors.white.bgBlue( ' [ Copy : Assets : Images ] ' ) );
 
 		return gulp
-			.src( options.directory.source + '/assets/images/**/*.*' )
+			.src( options.directory.source + '/assets/images/**/*.{png,jpg,gif,svg,webp}' )
 			.pipe( imagemin( options.imagemin ) )
 			.pipe( gulp.dest( options.directory.dist + '/assets/images' ), { overwrite: true } )
 		;
@@ -383,7 +382,7 @@ gulp.task(
 			, swPrecache = require( 'sw-precache' )
 			, config = {
 				staticFileGlobs: [
-					options.directory.dist + '/**/**/*.{js,html,css,png,jpg,gif,svg,eot,ttf,woff,woff2,mp3,json}',
+					options.directory.dist + '/**/**/*.{js,html,css,webp,png,jpg,gif,svg,eot,ttf,woff,woff2,mp3,json}',
 				],
 				stripPrefix: options.directory.dist + '/',
 				maximumFileSizeToCacheInBytes: [
