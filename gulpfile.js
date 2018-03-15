@@ -21,6 +21,7 @@ var gulp = require( 'gulp' )
 	, environments = require( 'gulp-environments' )
 	, rev = require( 'gulp-rev' )
 	, imagemin = require( 'gulp-imagemin' )
+	, imageminWebp = require( 'imagemin-webp' )
 	, filter = require( 'gulp-filter' )
 	, html = require( 'gulp-htmlmin' )
 	, htmlhint = require( 'gulp-htmlhint' )
@@ -111,8 +112,23 @@ var gulp = require( 'gulp' )
 			logLevel: "silent",
 		},
 		imagemin: {
-			optimizationLevel: 7,
-			progressive: true,
+			plugins: [
+				imagemin.gifsicle(),
+				imagemin.jpegtran(),
+				imagemin.optipng(),
+				imagemin.svgo(),
+				imageminWebp(
+					{
+						quality: 69,
+						lossless: true,
+					}
+				),
+			],
+			config: {
+				optimizationLevel: 9,
+				progressive: true,
+				verbose: true,
+			},
 		},
 	}
 	, development = environments.development
@@ -242,7 +258,8 @@ gulp.task(
 
 		return gulp
 			.src( options.directory.source + '/assets/icons/**/*.{png,jpg,gif,svg,webp}' )
-			.pipe( imagemin( options.imagemin ) )
+			.pipe( imagemin( options.imagemin.plugins, options.imagemin.config ) )
+			.on( 'error', errorManager )
 			.pipe( gulp.dest( options.directory.dist + '/assets/icons' ), { overwrite: true } )
 		;
 
@@ -269,7 +286,8 @@ gulp.task(
 
 		return gulp
 			.src( options.directory.source + '/assets/images/**/*.{png,jpg,gif,svg,webp}' )
-			.pipe( imagemin( options.imagemin ) )
+			.pipe( imagemin( options.imagemin.plugins, options.imagemin.config ) )
+			.on( 'error', errorManager )
 			.pipe( gulp.dest( options.directory.dist + '/assets/images' ), { overwrite: true } )
 		;
 

@@ -75,6 +75,7 @@
 		"gulp-stylelint": "^3.9.0",
 		"gulp-uglify": "^2.1.2",
 		"gulp-util": "^3.0.8",
+		"imagemin-webp": "^4.1.0",
 		"prettier": "^1.9.2",
 		"stylelint-no-unsupported-browser-features": "^1.0.1",
 		"sw-precache": "^5.2.1"
