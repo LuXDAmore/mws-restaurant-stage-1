@@ -236,9 +236,8 @@ class DBHelper {
 
 			const source = document.createElement( element );
 
-			let media = 400
-				, srcset = ''
-			;
+			let media = 400;
+
 			switch( i ) {
 				case 0:
 					media = 800;
@@ -251,9 +250,9 @@ class DBHelper {
 				break;
 			}
 
-			srcset = DBHelper.imageUrlForRestaurant( restaurant, media, type );
+			let srcset = DBHelper.imageUrlForRestaurant( restaurant, media, type );
 			if( retina )
-				srcset += ` 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) }`;
+				srcset += ` 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
 
 			source.media = `(min-width: ${ media }px)`;
 			source.type = `image/${ type }`;

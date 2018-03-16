@@ -746,12 +746,10 @@ function reload( done ) {
 
 	gutil.log( gutil.colors.gray( 'File edited: browser reload..' ) );
 
-	if( typeof done === 'function' )
+	if( done && typeof done === 'function' )
 		done();
 
 	browserSync.reload();
-
-	this.emit( 'end' );
 
 };
 gulp.task(

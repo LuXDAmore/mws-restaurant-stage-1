@@ -1,9 +1,13 @@
-@charset "utf-8";
+:root {
+	font-size: 16px;
+}
+html {
+	font-size: 16px;
+}
 /* CSS Document */
-
 body,td,th,p{
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu,Cantarell, "Helvetica Neue", sans-serif;
-	font-size: 10pt;
+	font-size: 14pt;
 	color: #333;
 	line-height: 1.5;
 }
@@ -147,7 +151,6 @@ nav h1 a {
 }
 #restaurants-list .restaurant-img {
   background-color: #ccc;
-  display: block;
   margin: 0;
   max-width: 100%;
   min-height: 248px;
