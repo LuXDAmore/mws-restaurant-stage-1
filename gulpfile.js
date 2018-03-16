@@ -374,20 +374,27 @@ gulp.task(
 			.src( options.directory.source + '/themes/**/*.*' )
 			.pipe( filterJS )
 			.pipe( gulpif( staging(), sourcemaps.init() ) )
+			.on( 'error', errorManager )
 			.pipe( gulpif( ! development(), uglify( options.uglify ) ) )
 			.on( 'error', errorManager )
 			.pipe( concat( nameJS ) )
+			.on( 'error', errorManager )
 			.pipe( rev() )
+			.on( 'error', errorManager )
 			.pipe( gulpif( ! production(), sourcemaps.write( '.', options.sourcemaps ) ) )
+			.on( 'error', errorManager )
 			.pipe( gulp.dest( options.directory.dist + '/app/scripts' ) )
 			.pipe( filterJS.restore )
 			.pipe( filterCSS )
 			.pipe( gulpif( staging(), sourcemaps.init() ) )
+			.on( 'error', errorManager )
 			.pipe( concat( namecss ) )
 			.pipe( gulpif( ! development(), css( options.css ) ) )
 			.on( 'error', errorManager )
 			.pipe( rev() )
+			.on( 'error', errorManager )
 			.pipe( gulpif( staging(), sourcemaps.write( '.', options.sourcemaps ) ) )
+			.on( 'error', errorManager )
 			.pipe( gulp.dest( options.directory.dist + '/app/styles' ) )
 			.pipe( filterCSS.restore )
 		;
@@ -404,12 +411,17 @@ gulp.task(
 			, swPrecache = require( 'sw-precache' )
 			, config = {
 				staticFileGlobs: [
-					options.directory.dist + '/**/**/*.{js,html,css,webp,png,jpg,gif,svg,eot,ttf,woff,woff2,mp3,json}',
+					options.directory.dist + '/**/**/*.js',
+					options.directory.dist + '/**/**/*.html',
+					// options.directory.dist + '/**/**/*.webp',
+					// options.directory.dist + '/**/**/*.png',
+					options.directory.dist + '/**/**/*.jpg',
+					options.directory.dist + '/**/**/*.json',
 				],
 				stripPrefix: options.directory.dist + '/',
 				maximumFileSizeToCacheInBytes: [
 					'52428800',
-				]
+				],
 			}
 		;
 
