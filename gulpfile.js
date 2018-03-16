@@ -413,15 +413,12 @@ gulp.task(
 				staticFileGlobs: [
 					options.directory.dist + '/**/**/*.js',
 					options.directory.dist + '/**/**/*.html',
+					options.directory.dist + '/**/**/*.jpg',
 					// options.directory.dist + '/**/**/*.webp',
 					// options.directory.dist + '/**/**/*.png',
-					options.directory.dist + '/**/**/*.jpg',
 					options.directory.dist + '/**/**/*.json',
 				],
 				stripPrefix: options.directory.dist + '/',
-				maximumFileSizeToCacheInBytes: [
-					'52428800',
-				],
 			}
 		;
 
