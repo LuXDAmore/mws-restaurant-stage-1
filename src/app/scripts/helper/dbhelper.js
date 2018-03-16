@@ -228,7 +228,7 @@ class DBHelper {
 		picture,
 		type = 'webp',
 		element = 'source',
-		length = 4,
+		length = 3,
 		retina = false
 	) {
 
@@ -244,9 +244,6 @@ class DBHelper {
 				break;
 				case 1:
 					media = 480;
-				break;
-				case 3:
-					media = 320;
 				break;
 			}
 
