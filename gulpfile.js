@@ -411,11 +411,13 @@ gulp.task(
 			, swPrecache = require( 'sw-precache' )
 			, config = {
 				staticFileGlobs: [
+					options.directory.dist + '/**/**/*.css',
 					options.directory.dist + '/**/**/*.js',
 					options.directory.dist + '/**/**/*.html',
+					options.directory.dist + '/**/**/*.webp',
 					options.directory.dist + '/**/**/*.jpg',
-					// options.directory.dist + '/**/**/*.webp',
 					// options.directory.dist + '/**/**/*.png',
+					// options.directory.dist + '/**/**/*.svg',
 					options.directory.dist + '/**/**/*.json',
 				],
 				stripPrefix: options.directory.dist + '/',
