@@ -1,8 +1,9 @@
+// Common
 html,
-body,
-#maincontent
+body
 	min-height: 100vh;
 
+// Flex
 nav,
 .filter-options,
 #restaurants-list,
@@ -24,24 +25,3 @@ nav,
 	margin-left: auto;
 	margin-right: auto;
 
-picture
-	display: block;
-	object-position: center top;
-	object-fit: cover;
-	max-width: 100%;
-	overflow: hidden;
-	margin: 0 auto;
-
-#map-container
-	background-position: center;
-	background-repeat: no-repeat;
-	background-size: cover;
-	background-image: url( '../../assets/images/placeholder/gmap-400.jpg' );
-	background-image: url( '../../assets/images/placeholder/gmap-400.webp' );
-	@media screen and (min-width: 600px)
-		background-image: url( '../../assets/images/placeholder/gmap-800.jpg' );
-		background-image: url( '../../assets/images/placeholder/gmap-800.webp' );
-
-	#map
-		height: 450px;
-		background-color: transparent;

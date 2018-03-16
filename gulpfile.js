@@ -21,7 +21,6 @@ var gulp = require( 'gulp' )
 	, environments = require( 'gulp-environments' )
 	, rev = require( 'gulp-rev' )
 	, imagemin = require( 'gulp-imagemin' )
-	, imageminWebp = require( 'imagemin-webp' )
 	, filter = require( 'gulp-filter' )
 	, html = require( 'gulp-htmlmin' )
 	, htmlhint = require( 'gulp-htmlhint' )
@@ -56,7 +55,7 @@ var gulp = require( 'gulp' )
 		},
 		cssnano: {
 			autoprefixer: {
-				add: true,
+				add: false,
 			},
 		},
 		sass: {
@@ -113,21 +112,26 @@ var gulp = require( 'gulp' )
 		},
 		imagemin: {
 			plugins: [
-				imagemin.gifsicle(),
-				imagemin.jpegtran(),
-				imagemin.optipng(),
-				imagemin.svgo(),
-				imageminWebp(
+				imagemin.gifsicle(
 					{
-						quality: 69,
-						lossless: true,
+						interlaced: true,
+						optimizationLevel: 3,
 					}
 				),
+				imagemin.jpegtran(
+					{
+						progressive: true,
+					}
+				),
+				imagemin.optipng(
+					{
+						optimizationLevel: 7,
+					}
+				),
+				imagemin.svgo(),
 			],
 			config: {
-				optimizationLevel: 9,
-				progressive: true,
-				verbose: true,
+				verbose: false,
 			},
 		},
 	}
@@ -257,7 +261,7 @@ gulp.task(
 		gutil.log( gutil.colors.white.bgBlue( ' [ Copy : Assets : Icons ] ' ) );
 
 		return gulp
-			.src( options.directory.source + '/assets/icons/**/*.{png,jpg,gif,svg,webp}' )
+			.src( options.directory.source + '/assets/icons/**/*.{png,jpg,gif,svg}' )
 			.pipe( imagemin( options.imagemin.plugins, options.imagemin.config ) )
 			.on( 'error', errorManager )
 			.pipe( gulp.dest( options.directory.dist + '/assets/icons' ), { overwrite: true } )
@@ -426,7 +430,7 @@ gulp.task(
 
 		var critical = require( 'critical' ).stream
 			, glob = require( 'glob' )
-			, css_files = glob.sync( options.directory.dist + '/app/styles/**/*.css' )
+			, css_files = glob.sync( options.directory.dist + '/app/**/**/*.css' ) || []
 		;
 
 		return gulp
@@ -434,12 +438,14 @@ gulp.task(
 			.pipe(
 				critical(
 					{
-						base: options.directory.dist,
+						base: options.directory.dist + '/',
 						inline: true,
 						minify: true,
+						extract: false,
 						css: css_files,
 						ignore: [
 							'@font-face',
+							/url\(/,
 						],
 						dimensions: [
 							{
@@ -717,7 +723,10 @@ gulp.task(
 // SERVE || WATCH TASKS
 function errorManager( error ) {
 
-	gutil.log( gutil.colors.red( error.toString() ) );
+	if( typeof error === 'function' )
+		error();
+	else
+		gutil.log( gutil.colors.red( error.toString() ) );
 
 	this.emit( 'end' );
 
@@ -726,10 +735,12 @@ function reload( done ) {
 
 	gutil.log( gutil.colors.gray( 'File edited: browser reload..' ) );
 
-	browserSync.reload();
-
 	if( typeof done === 'function' )
 		done();
+
+	browserSync.reload();
+
+	this.emit( 'end' );
 
 };
 gulp.task(

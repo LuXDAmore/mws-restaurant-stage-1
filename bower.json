@@ -1,20 +1,25 @@
 {
-  "name": "mws-restaurant-stage-1",
-  "description": "RESTAURANT REVIEWS",
-  "version": "1.0.0",
-  "main": "./dist/index.html",
-  "keywords": [],
-  "license": "MIT",
-  "author": "Luca Iaconelli <lucabelli9@gmail.com> (https://github.com/luxdamore)",
-  "private": true,
-  "homepage": "https://luxdamore.github.com/mws-restaurant-stage-1/",
-  "ignore": [
-    "**/.*",
-    "node_modules",
-    "bower_components",
-    "tests"
-  ],
-  "dependencies": {
-    "vanilla-lazyload": "^10.4.2"
-  }
+	"name": "mws-restaurant-stage-1",
+	"description": "RESTAURANT REVIEWS",
+	"version": "1.0.0",
+	"main": "./dist/index.html",
+	"keywords": [],
+	"license": "MIT",
+	"author": "Luca Iaconelli <lucabelli9@gmail.com> (https://github.com/luxdamore)",
+	"private": true,
+	"homepage": "https://luxdamore.github.com/mws-restaurant-stage-1/",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"tests"
+	],
+	"dependencies": {
+		"vanilla-lazyload": "^10.4.2"
+	},
+	"overrides": {
+		"vanilla-lazyload": {
+			"main": "dist/lazyload.js"
+		}
+	}
 }
