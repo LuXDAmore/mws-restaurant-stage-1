@@ -9,12 +9,7 @@ class GMapHelper {
 	/* eslint-enable no-unused-vars */
 
 	/**
-	 * Database URL.
-	 * Change this to restaurants.json file location on your server.
-	 */
-
-	/**
-	 * Fetch all restaurants.
+	 * GMaps load function with config.
 	 */
 	static load( config = {} ) {
 
@@ -23,7 +18,7 @@ class GMapHelper {
 			|| document.getElementById( 'google-maps-script' )
 		) {
 
-			// Do nothing if run from server-side
+			// Do nothing if run from server-side or if script already founded
 			return;
 
 		};
@@ -51,11 +46,32 @@ class GMapHelper {
 
 		GMapScript.id = 'google-maps-script';
 		GMapScript.src = url;
-		GMapScript.async = '';
-		GMapScript.defer = '';
+		GMapScript.async = true;
+		GMapScript.defer = true;
 
 		document.body.appendChild( GMapScript );
 
 	};
+
+	// Do this on every Maps Loaded event. --> Only to obtain more on Lighthouse.
+	static mapsLoaded( map ) {
+
+		const iframe = map.querySelector( 'iframe' );
+		if( iframe )
+			iframe.title = 'Google maps';
+
+		// FIXME: Google maps doesn't matter about the 'rel' attribute
+		setTimeout(
+			() => {
+
+				const anchors = map.querySelectorAll( 'a' );
+				if( anchors )
+					anchors.forEach( anchor => anchor.rel = 'nooper' );
+
+			},
+			1000
+		)
+
+	}
 
 };

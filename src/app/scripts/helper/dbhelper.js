@@ -24,7 +24,7 @@ class DBHelper {
 	 */
 	static fetchRestaurants( callback ) {
 
-		if( this.restaurants.length )
+		if( this.restaurants && this.restaurants.length )
 			callback( null, this.restaurants );
 		else {
 
@@ -300,9 +300,11 @@ class DBHelper {
 				title: restaurant.name,
 				url: DBHelper.urlForRestaurant( restaurant ),
 				map: map,
-				animation: google.maps.Animation.DROP
+				// icon: 'assets/placeholder/images/gmarker.webp', // TODO: Setting a 'wepb' marker
+				// animation: google.maps.Animation.DROP,
 			}
 		);
+
 		return marker;
 
 	};

@@ -33,13 +33,7 @@ window.initMapRestaurantInfo = () => {
 				google.maps.event.addListenerOnce(
 					self.map,
 					'idle',
-					() => {
-
-						const iframe = map.querySelector( 'iframe' );
-						if( iframe )
-							map.querySelector( 'iframe' ).title = 'Google maps';
-
-					}
+					() => GMapHelper.mapsLoaded( map )
 				);
 
 				fillBreadcrumb();
