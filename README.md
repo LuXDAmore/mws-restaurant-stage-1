@@ -25,3 +25,5 @@ __Extra__
 For building project in your github-pages folder run `npm run build:github:pages`.
 *You should check `var options` in the `gulpfile.js`*
 [Github Pages](https://pages.github.com/)
+
+This building tool is compatible with [Netlify](https://www.netlify.com/), try the [Live version](https://mws-restaurant.netlify.com/)
