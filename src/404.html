@@ -558,18 +558,24 @@
 			<!-- Beginning nav -->
 			<nav>
 				<h1>
-					<a href="index.html" rel="nooper">Restaurant Reviews</a>
+					<a href="index.html" rel="nooper" title="Home">Restaurant Reviews</a>
 				</h1>
 			</nav>
 			<!-- Beginning breadcrumb -->
-			<ul id="breadcrumb">
-				<li>
-					<a href="index.html" rel="nooper">Home</a>
-				</li>
-				<li>
-					404
-				</li>
-			</ul>
+			<nav aria-label="breadcrumb">
+				<ol id="breadcrumb">
+					<li>
+						<a
+							href="index.html"
+							title="Home"
+							rel="nooper"
+							aria-level="1"
+						>
+							Home
+						</a>
+					</li>
+				</ol>
+			</nav>
 			<!-- End breadcrumb -->
 			<!-- End nav -->
 		</header>
@@ -661,7 +667,7 @@
 		<!-- Beginning footer -->
 		<footer id="footer">
 			Copyright (c) 2017
-			<a href="index.html" rel="nooper">
+			<a href="index.html" rel="nooper" title="Home">
 				<strong>Restaurant Reviews</strong>
 			</a> All Rights Reserved.
 		</footer>
