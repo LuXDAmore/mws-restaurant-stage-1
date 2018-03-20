@@ -1,6 +1,5 @@
 'use strict';
 
-
 /**
  * Common gmaps helper functions.
  */
@@ -61,16 +60,16 @@ class GMapHelper {
 			iframe.title = 'Google maps';
 
 		// FIXME: Google maps doesn't matter about the 'rel' attribute
-		setTimeout(
-			() => {
+		// setTimeout(
+		// 	() => {
 
-				const anchors = map.querySelectorAll( 'a' );
-				if( anchors )
-					anchors.forEach( anchor => anchor.rel = 'nooper' );
+		// 		const anchors = map.querySelectorAll( 'a' );
+		// 		if( anchors )
+		// 			anchors.forEach( anchor => anchor.rel = 'nooper' );
 
-			},
-			1000
-		)
+		// 	},
+		// 	1000
+		// )
 
 	}
 

@@ -56,8 +56,15 @@ const ready = function() {
 		IS_RESTAURANT
 		&& typeof GMapHelper !== 'undefined'
 		&& typeof DBHelper !== 'undefined'
-	)
-		GMapHelper.load( { callback: 'initMapRestaurantInfo' } );
+	) {
+
+		GMapHelper.load(
+			{
+				callback: 'initMapRestaurantInfo',
+			}
+		);
+
+	};
 
 
 };
@@ -87,17 +94,19 @@ function fetchRestaurantFromURL( callback ) {
 			( error, restaurant ) => {
 
 				self.restaurant = restaurant;
+
 				if( ! restaurant ) {
 
 					window.console.error( error );
 					return;
 
 				};
+
 				fillRestaurantHTML();
 
 				DBHelper.lazyLoadImages();
 
-				callback( null, restaurant )
+				callback( null, restaurant );
 
 			}
 		);
@@ -238,7 +247,7 @@ function fillBreadcrumb( restaurant = self.restaurant ) {
 	li.innerHTML = restaurant.name;
 	breadcrumb.appendChild( li );
 
-}
+};
 
 /**
 * Get a parameter by name from page URL.
@@ -250,7 +259,7 @@ function getParameterByName( name, url ) {
 
 	name = name.replace( /[\[\]]/g, '\\$&' );
 
-	const regex = new RegExp( `[?&]${name}(=([^&#]*)|&|#|$)` )
+	const regex = new RegExp( `[?&]${ name }(=([^&#]*)|&|#|$)` )
 		, results = regex.exec( url )
 	;
 

@@ -33,14 +33,16 @@ class DBHelper {
 			xhr.open( 'GET', DBHelper.DATABASE_URL );
 			xhr.onload = () => {
 
-				if( xhr.status === 200 ) { // Got a success response from server!
+				// Got a success response from server!
+				if( xhr.status === 200 ) {
 
 					const json = JSON.parse( xhr.responseText );
 					this.restaurants = json.restaurants;
 
 					callback( null, this.restaurants );
 
-				} else { // Oops!. Got an error from server.
+				// Oops!. Got an error from server.
+				} else {
 
 					const error = ( `Request failed. Returned status of ${ xhr.status }` );
 					callback( error, null );
@@ -68,7 +70,7 @@ class DBHelper {
 					callback( error, null );
 				else {
 
-					const restaurant = restaurants.find( r => r.id == id );
+					const restaurant = restaurants.find( r => r.id === parseInt( id ) );
 					if( restaurant ) // Got the restaurant
 						callback( null, restaurant );
 					else // Restaurant does not exist in the database
@@ -95,7 +97,7 @@ class DBHelper {
 				else {
 
 					// Filter restaurants to have only given cuisine type
-					const results = restaurants.filter( r => r.cuisine_type == cuisine );
+					const results = restaurants.filter( r => r.cuisine_type === cuisine );
 					callback( null, results );
 
 				};
@@ -119,7 +121,7 @@ class DBHelper {
 				else {
 
 					// Filter restaurants to have only given neighborhood
-					const results = restaurants.filter( r => r.neighborhood == neighborhood );
+					const results = restaurants.filter( r => r.neighborhood === neighborhood );
 					callback( null, results );
 
 				};
@@ -143,12 +145,12 @@ class DBHelper {
 				else {
 
 					let results = restaurants
-					if( cuisine != 'all' ) // filter by cuisine
-						results = results.filter( r => r.cuisine_type == cuisine );
+					if( cuisine !== 'all' ) // filter by cuisine
+						results = results.filter( r => r.cuisine_type === cuisine );
 
 
-					if( neighborhood != 'all' ) // filter by neighborhoo
-						results = results.filter( r => r.neighborhood == neighborhood );
+					if( neighborhood !== 'all' ) // filter by neighborhoo
+						results = results.filter( r => r.neighborhood === neighborhood );
 
 					callback( null, results );
 
@@ -175,7 +177,7 @@ class DBHelper {
 					// Get all neighborhoods from all restaurants
 					const neighborhoods = restaurants.map( ( v, i ) => restaurants[ i ].neighborhood )
 					// Remove duplicates from neighborhoods
-					const uniqueNeighborhoods = neighborhoods.filter( ( v, i ) => neighborhoods.indexOf( v ) == i )
+					const uniqueNeighborhoods = neighborhoods.filter( ( v, i ) => neighborhoods.indexOf( v ) === i )
 					callback( null, uniqueNeighborhoods );
 
 				}
@@ -201,7 +203,7 @@ class DBHelper {
 					// Get all cuisines from all restaurants
 					const cuisines = restaurants.map( ( v, i ) => restaurants[ i ].cuisine_type )
 					// Remove duplicates from cuisines
-					const uniqueCuisines = cuisines.filter( ( v, i ) => cuisines.indexOf( v ) == i )
+					const uniqueCuisines = cuisines.filter( ( v, i ) => cuisines.indexOf( v ) === i )
 					callback( null, uniqueCuisines );
 
 				}
@@ -281,7 +283,11 @@ class DBHelper {
 	/**
 	 * Restaurant image URL.
 	 */
-	static imageUrlForRestaurant( restaurant, size = 400, extension = '' ) {
+	static imageUrlForRestaurant(
+		restaurant,
+		size = 400,
+		extension = ''
+	) {
 
 		const filename = extension ? restaurant.photograph.replace( 'jpg', extension ) : restaurant.photograph;
 
@@ -300,7 +306,7 @@ class DBHelper {
 				title: restaurant.name,
 				url: DBHelper.urlForRestaurant( restaurant ),
 				map: map,
-				// icon: 'assets/placeholder/images/gmarker.webp', // TODO: Setting a 'wepb' marker
+				// icon: 'assets/placeholder/images/gmarker.webp', // TODO: Setting a 'wepb' marker?
 				// animation: google.maps.Animation.DROP,
 			}
 		);

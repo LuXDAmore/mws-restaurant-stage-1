@@ -54,7 +54,11 @@ const ready = function() {
 		&& typeof DBHelper !== 'undefined'
 	) {
 
-		GMapHelper.load( { callback: 'initMap' } );
+		GMapHelper.load(
+			{
+				callback: 'initMap',
+			}
+		);
 
 		DBHelper.fetchRestaurants(
 			() => {
@@ -122,7 +126,8 @@ function fetchCuisines() {
 	DBHelper.fetchCuisines(
 		( error, cuisines ) => {
 
-			if( error )// Got an error!
+			// Got an error!
+			if( error )
 				window.console.error( error );
 			else {
 
@@ -175,7 +180,8 @@ function updateRestaurants() {
 		neighborhood,
 		( error, restaurants ) => {
 
-			if( error )// Got an error!
+			// Got an error!
+			if( error )
 				window.console.error( error );
 			else {
 
