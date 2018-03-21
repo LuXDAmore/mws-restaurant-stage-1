@@ -22,8 +22,7 @@
 					.then(
 						function( registration ) {
 
-							if( typeof registration.update === 'function' )
-								registration.update();
+							if( typeof registration.update === 'function' ) registration.update();
 
 							registration.onupdatefound = function() {
 
@@ -33,10 +32,8 @@
 
 									switch( installingWorker.state ) {
 										case 'installed':
-											if( navigator.serviceWorker.controller )
-												window.console.info( 'New or updated content is available.' );
-											else
-												window.console.info( 'Content is cached, and will be available for offline use the next time the page is loaded.' );
+											if( navigator.serviceWorker.controller ) window.console.info( 'New or updated content is available.' );
+											else window.console.info( 'Content is cached, and will be available for offline use the next time the page is loaded.' );
 										break;
 										case 'redundant':
 											window.console.error( 'The installing service worker became redundant.' );
