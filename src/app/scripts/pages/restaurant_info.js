@@ -104,7 +104,7 @@ function fetchRestaurantFromURL( callback ) {
 
 				fillRestaurantHTML();
 
-				DBHelper.lazyLoadImages();
+				// DBHelper.lazyLoadImages();
 
 				callback( null, restaurant );
 
