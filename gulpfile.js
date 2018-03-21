@@ -28,6 +28,7 @@ var gulp = require( 'gulp' )
 	, options = {
 		service_worker: {
 			name: 'sw.js',
+			generator: 'sw-generator.js',
 		},
 		github: {
 			name: 'mws-restaurant-stage-1',
@@ -42,6 +43,7 @@ var gulp = require( 'gulp' )
 			source: 'src',
 			dist: 'dist',
 			git_pages: 'docs',
+			tools: 'tools',
 		},
 		babel: {
 			minified: false,
@@ -514,14 +516,33 @@ gulp.task(
 				'<link rel="canonical" href="/">',
 				'<link rel="canonical" href="/' + options.github.name + '/">',
 			]
+			, replace_manifest = [
+				'"start_url": "/"',
+				'"start_url": "/' + options.github.name + '/"',
+			]
+		;
+
+		var filterHTML = filter( '**/*.html', { restore: true } )
+			, filterManifest = filter( '**/*.json', { restore: true } )
 		;
 
 		return gulp
-			.src( options.directory.dist + '/*.html' )
+			.src(
+				[
+					options.directory.dist + '/*.html',
+					options.directory.dist + '/manifest.json',
+				]
+			)
+			.pipe( filterHTML )
 			.pipe( injectString.replace( replace_base[ 0 ], replace_base[ 1 ] ) )
 			.on( 'error', errorManager )
 			.pipe( injectString.replace( replace_canonical[ 0 ], replace_canonical[ 1 ] ) )
 			.on( 'error', errorManager )
+			.pipe( filterHTML.restore )
+			.pipe( filterManifest )
+			.pipe( injectString.replace( replace_manifest[ 0 ], replace_manifest[ 1 ] ) )
+			.on( 'error', errorManager )
+			.pipe( filterManifest.restore )
 			.pipe( gulp.dest( options.directory.git_pages + '/' ), { overwrite: true } )
 		;
 
@@ -574,6 +595,26 @@ gulp.task(
 				)
 			)
 			.on( 'error', errorManager )
+			.pipe(
+				inject(
+					gulp.src( options.directory.tools + '/' + options.service_worker.generator ),
+					{
+						starttag: '<!-- inject:service-worker:{{ext}} -->',
+						transform: function( filepath, file ) {
+
+							return '<script>'
+								+ file.contents
+									.toString()
+									.replace( /\n|\r|\t/g, '' )
+									.trim()
+									.replace( '[SERVICE-WORKER-NAME]', options.service_worker.name )
+								+ '</script>'
+							;
+
+						},
+					}
+				)
+			)
 			.pipe( htmlhint() )
 			.on( 'error', errorManager )
 			.pipe( html( options.html ) )
@@ -591,6 +632,7 @@ gulp.task(
 
 		return gulp
 			.src( options.directory.source + '/app/**/*.html' )
+			.on( 'error', errorManager )
 			.pipe( htmlhint() )
 			.on( 'error', errorManager )
 			.pipe( html( options.html ) )

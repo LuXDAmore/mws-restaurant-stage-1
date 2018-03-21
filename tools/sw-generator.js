@@ -10,14 +10,19 @@
 
 			function serviceWorker() {
 
-				window.removeEventListener( 'load', serviceWorker, false ); // --> Remove listener, no longer needed
+				window.removeEventListener( 'load', serviceWorker, false );
 
 				navigator.serviceWorker
-					.register( 'sw.js' )
+					.register(
+						'[SERVICE-WORKER-NAME]',
+						{
+							scope: './'
+						}
+					)
 					.then(
 						function( registration ) {
 
-							if( typeof registration.update == 'function' )
+							if( typeof registration.update === 'function' )
 								registration.update();
 
 							registration.onupdatefound = function() {

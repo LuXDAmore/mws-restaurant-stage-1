@@ -2,12 +2,13 @@
 	"short_name": "Restaurant",
 	"name": "RESTAURANT REVIEWS",
 	"description": "RESTAURANT REVIEWS BY GOOGLE AND UDACITY",
-	"start_url": "index.html",
+	"start_url": "/",
 	"display": "fullscreen",
 	"orientation": "portrait",
 	"background_color": "#2980b9",
 	"theme_color": "#2980b9",
-	"icons": [{
+	"icons": [
+		{
 			"src": "assets/icons/icon-72x72.png",
 			"sizes": "72x72",
 			"type": "image/png"
