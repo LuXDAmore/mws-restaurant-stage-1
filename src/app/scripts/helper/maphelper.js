@@ -12,8 +12,7 @@ class GMapHelper {
 	 */
 	static load( config = {} ) {
 
-		if(
-			typeof document === 'undefined'
+		if( typeof document === 'undefined'
 			|| document.getElementById( 'google-maps-script' )
 		) {
 
@@ -59,18 +58,6 @@ class GMapHelper {
 		if( iframe )
 			iframe.title = 'Google maps';
 
-		// FIXME: Google maps doesn't matter about the 'rel' attribute
-		// setTimeout(
-		// 	() => {
-
-		// 		const anchors = map.querySelectorAll( 'a' );
-		// 		if( anchors )
-		// 			anchors.forEach( anchor => anchor.rel = 'nooper' );
-
-		// 	},
-		// 	1000
-		// )
-
-	}
+	};
 
 };

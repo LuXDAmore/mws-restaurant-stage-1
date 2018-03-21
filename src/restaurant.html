@@ -126,16 +126,19 @@
 		<!-- endinject -->
 
 		<script>
-			'use strict';
+		(
+			function( window, navigator ) {
 
-			if( 'serviceWorker' in navigator
-				&& window.location.protocol === 'https:'
-				&& [ 'localhost', '127' ].indexOf( window.location.hostname ) === - 1
-			) {
+				'use strict';
 
-				window.addEventListener(
-					'load',
-					function() {
+				if( 'serviceWorker' in navigator
+					&& window.location.protocol === 'https:'
+					&& [ 'localhost', '127' ].indexOf( window.location.hostname ) === - 1
+				) {
+
+					function serviceWorker() {
+
+						window.removeEventListener( 'load', serviceWorker, false ); // --> Remove listener, no longer needed
 
 						navigator.serviceWorker
 							.register( 'sw.js' )
@@ -168,7 +171,8 @@
 									};
 
 								}
-							).catch(
+							)
+							.catch(
 								function( e ) {
 
 									window.console.error( 'Error during service worker registration:', e );
@@ -177,10 +181,14 @@
 							)
 						;
 
-					}
-				);
+					};
 
-			};
+					window.addEventListener( 'load', serviceWorker, false );
+
+				};
+
+			}
+		)( window, navigator )
 		</script>
 
 	</body>
