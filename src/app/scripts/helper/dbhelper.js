@@ -307,7 +307,6 @@ class DBHelper {
 				url: DBHelper.urlForRestaurant( restaurant ),
 				map: map,
 				// icon: 'assets/placeholder/images/gmarker.webp', // TODO: Setting a 'wepb' marker?
-				// animation: google.maps.Animation.DROP,
 			}
 		);
 
