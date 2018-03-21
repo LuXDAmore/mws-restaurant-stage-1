@@ -79,13 +79,15 @@ var gulp = require( 'gulp' )
 		uglify: {
 			mangle: true,
 			preserveComments: false,
+			topLevel: true,
 			compress: {
 				drop_console: true,
 				drop_debugger: true,
+				passes: 2,
 			},
 			output: {
 				max_line_len: 1200000,
-			}
+			},
 		},
 		html: {
 			removeAttributeQuotes: false,
@@ -592,7 +594,7 @@ gulp.task(
 						addRootSlash: false,
 						transform: function( filepath ) {
 
-							return '<script src="' + filepath + '" async defer></script>';
+							return '<script src="' + filepath + '" async></script>';
 
 						},
 					}

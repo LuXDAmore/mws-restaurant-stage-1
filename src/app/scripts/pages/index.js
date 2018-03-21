@@ -6,7 +6,6 @@ let restaurants
 	, cuisines
 	, map
 	, markers = []
-	, initialized = false
 ;
 /* eslint-enable no-unused-vars */
 
@@ -48,22 +47,11 @@ window.initMap = () => {
  */
 const ready = function() {
 
-	if( initialized )
-		return;
-
 	if(
 		IS_INDEX
 		&& typeof GMapHelper !== 'undefined'
 		&& typeof DBHelper !== 'undefined'
 	) {
-
-		initialized = true;
-
-		GMapHelper.load(
-			{
-				callback: 'initMap',
-			}
-		);
 
 		DBHelper.fetchRestaurants(
 			() => {
@@ -74,10 +62,16 @@ const ready = function() {
 			}
 		);
 
+		GMapHelper.load(
+			{
+				callback: 'initMap',
+			}
+		);
+
 	};
 
 };
-document.addEventListener( 'DOMContentLoaded', ready, false );
+// document.addEventListener( 'DOMContentLoaded', ready, false );
 ready();
 
 /**

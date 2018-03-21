@@ -3,7 +3,6 @@
 /* eslint-disable no-unused-vars */
 let restaurant
 	, map
-	, initialized = false
 ;
 /* eslint-enableno-unused-vars */
 
@@ -53,16 +52,11 @@ window.initMapRestaurantInfo = () => {
  */
 const ready = function() {
 
-	if( initialized )
-		return;
-
 	if(
 		IS_RESTAURANT
 		&& typeof GMapHelper !== 'undefined'
 		&& typeof DBHelper !== 'undefined'
 	) {
-
-		initialized = true;
 
 		GMapHelper.load(
 			{
@@ -74,7 +68,6 @@ const ready = function() {
 
 
 };
-document.addEventListener( 'DOMContentLoaded', ready, false );
 ready();
 
 /**
