@@ -55,7 +55,6 @@ const ready = function() {
 	if(
 		IS_RESTAURANT
 		&& typeof GMapHelper !== 'undefined'
-		&& typeof DBHelper !== 'undefined'
 	) {
 
 		GMapHelper.load(
@@ -75,7 +74,8 @@ ready();
  */
 function fetchRestaurantFromURL( callback ) {
 
-	if( self.restaurant ) { // restaurant already fetched!
+	// restaurant already fetched!
+	if( self.restaurant ) {
 
 		callback( null, self.restaurant );
 		return;
@@ -84,7 +84,8 @@ function fetchRestaurantFromURL( callback ) {
 
 	const id = getParameterByName( 'id' );
 
-	if( ! id ) // no id found in URL
+	// no id found in URL
+	if( ! id )
 		callback( 'No restaurant id in URL', null );
 	else {
 
