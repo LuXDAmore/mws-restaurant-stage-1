@@ -222,7 +222,6 @@ function createReviewHTML( review ) {
 
 	subtitle.appendChild( date );
 	subtitle.appendChild( rating );
-	subtitle.appendChild( subtitle );
 
 	li.appendChild( subtitle );
 
