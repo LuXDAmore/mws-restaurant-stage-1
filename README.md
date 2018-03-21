@@ -24,6 +24,6 @@ For the **Restaurant Reviews** projects, you will incrementally convert a static
 __Extra__
 For building project in your github-pages folder run `npm run build:github:pages`.
 *You should check `var options` in the `gulpfile.js`*
-[Github Pages](https://pages.github.com/)
+*[Github Pages](https://pages.github.com/), you should read the documentation and set `master/docs`*
 
 This building tool is compatible with [Netlify](https://www.netlify.com/), try the [Live version](https://mws-restaurant.netlify.com/)
