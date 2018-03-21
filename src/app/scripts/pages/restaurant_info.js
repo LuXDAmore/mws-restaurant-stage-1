@@ -38,6 +38,7 @@ window.initMapRestaurantInfo = () => {
 
 				fillBreadcrumb();
 
+				DBHelper.lazyLoadImages();
 				DBHelper.mapMarkerForRestaurant( self.restaurant, self.map );
 
 			};
@@ -103,8 +104,6 @@ function fetchRestaurantFromURL( callback ) {
 				};
 
 				fillRestaurantHTML();
-
-				// DBHelper.lazyLoadImages();
 
 				callback( null, restaurant );
 
