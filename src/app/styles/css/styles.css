@@ -1,8 +1,4 @@
-:root {
-	font-size: 16px;
-}
-
-html {
+:root, html {
 	font-size: 16px;
 }
 
@@ -13,9 +9,6 @@ body {
 	font-size: 14pt;
 	color: #333;
 	line-height: 1.5;
-}
-
-body {
 	background-color: #fdfdfd;
 	margin: 0;
 	position: relative;
@@ -152,7 +145,7 @@ nav h1 a {
 	font-size: 1rem;
 	font-weight: normal;
 	line-height: 1;
-	margin-bottom: 0px
+	margin-bottom: 0;
 }
 
 .filter-options select {
@@ -222,33 +215,6 @@ nav h1 a {
 }
 
 /* ====================== Restaurant Details ====================== */
-
-.inside header {
-	position: fixed;
-	top: 0;
-	width: 100%;
-	z-index: 1000;
-}
-
-.inside #map-container {
-	height: 87%;
-	position: fixed;
-	right: 0;
-	top: 80px;
-	width: 50%;
-}
-
-.inside #map {
-	background-color: #ccc;
-	height: 100%;
-	width: 100%;
-}
-
-.inside #footer {
-	bottom: 0;
-	position: absolute;
-	width: 50%;
-}
 
 #restaurant-name {
 	font-size: 20pt;

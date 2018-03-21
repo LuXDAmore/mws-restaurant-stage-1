@@ -213,20 +213,22 @@ function createReviewHTML( review ) {
 	li.appendChild( title );
 
 	const subtitle = document.createElement( 'p' );
-	const info = document.createElement( 'small' );
+
 	const date = document.createElement( 'em' );
 	date.innerHTML = review.date;
 
 	const rating = document.createElement( 'span' );
 	rating.innerHTML = `Rating: ${ review.rating }`;
 
-	info.appendChild( date );
-	info.appendChild( rating );
-	subtitle.appendChild( info );
+	subtitle.appendChild( date );
+	subtitle.appendChild( rating );
+	subtitle.appendChild( subtitle );
+
 	li.appendChild( subtitle );
 
 	const comments = document.createElement( 'p' );
 	comments.innerHTML = review.comments;
+
 	li.appendChild( comments );
 
 	return li;
