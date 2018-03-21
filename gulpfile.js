@@ -456,10 +456,6 @@ gulp.task(
 						minify: true,
 						extract: false,
 						css: css_files,
-						ignore: [
-							'@font-face',
-							/url\(/,
-						],
 						dimensions: [
 							{
 								width: 412,
@@ -518,37 +514,14 @@ gulp.task(
 				'<link rel="canonical" href="/">',
 				'<link rel="canonical" href="/' + options.github.name + '/">',
 			]
-			, replace_manifest = [
-				'"start_url": "/"',
-				'"start_url": "/' + options.github.name + '/"',
-			]
-			, replace_scope = [
-				'"scope": "/"',
-				'"scope": "/' + options.github.name + '/"',
-			]
-			, filterHTML = filter( '**/*.html', { restore: true } )
-			, filterManifest = filter( '**/manifest.json', { restore: true } )
 		;
 
 		return gulp
-			.src(
-				[
-					options.directory.dist + '/*.html',
-					options.directory.dist + '/manifest.json',
-				]
-			)
-			.pipe( filterHTML )
+			.src( options.directory.dist + '/*.html' )
 			.pipe( injectString.replace( replace_base[ 0 ], replace_base[ 1 ] ) )
 			.on( 'error', errorManager )
 			.pipe( injectString.replace( replace_canonical[ 0 ], replace_canonical[ 1 ] ) )
 			.on( 'error', errorManager )
-			.pipe( filterHTML.restore )
-			.pipe( filterManifest )
-			.pipe( injectString.replace( replace_manifest[ 0 ], replace_manifest[ 1 ] ) )
-			.on( 'error', errorManager )
-			.pipe( injectString.replace( replace_scope[ 0 ], replace_scope[ 1 ] ) )
-			.on( 'error', errorManager )
-			.pipe( filterManifest.restore )
 			.pipe( gulp.dest( options.directory.git_pages + '/' ), { overwrite: true } )
 		;
 

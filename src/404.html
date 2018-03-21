@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en-US">
 
 	<head>
 
@@ -673,70 +673,71 @@
 		</footer>
 		<!-- End footer -->
 
+		<!-- Service Worker -->
 		<script>
-		(
-			function( window, navigator ) {
+			(
+				function( window, navigator ) {
 
-				'use strict';
+					'use strict';
 
-				if( 'serviceWorker' in navigator
-					&& window.location.protocol === 'https:'
-					&& [ 'localhost', '127' ].indexOf( window.location.hostname ) === - 1
-				) {
+					if( 'serviceWorker' in navigator
+						&& window.location.protocol === 'https:'
+						&& [ 'localhost', '127' ].indexOf( window.location.hostname ) === - 1
+					) {
 
-					function serviceWorker() {
+						function serviceWorker() {
 
-						window.removeEventListener( 'load', serviceWorker, false ); // --> Remove listener, no longer needed
+							window.removeEventListener( 'load', serviceWorker, false ); // --> Remove listener, no longer needed
 
-						navigator.serviceWorker
-							.register( 'sw.js' )
-							.then(
-								function( registration ) {
+							navigator.serviceWorker
+								.register( 'sw.js' )
+								.then(
+									function( registration ) {
 
-									if( typeof registration.update == 'function' )
-										registration.update();
+										if( typeof registration.update == 'function' )
+											registration.update();
 
-									registration.onupdatefound = function() {
+										registration.onupdatefound = function() {
 
-										var installingWorker = registration.installing;
+											var installingWorker = registration.installing;
 
-										installingWorker.onstatechange = function() {
+											installingWorker.onstatechange = function() {
 
-											switch( installingWorker.state ) {
-												case 'installed':
-													if( navigator.serviceWorker.controller )
-														window.console.info( 'New or updated content is available.' );
-													else
-														window.console.info( 'Content is cached, and will be available for offline use the next time the page is loaded.' );
-												break;
-												case 'redundant':
-													window.console.error( 'The installing service worker became redundant.' );
-												break;
+												switch( installingWorker.state ) {
+													case 'installed':
+														if( navigator.serviceWorker.controller )
+															window.console.info( 'New or updated content is available.' );
+														else
+															window.console.info( 'Content is cached, and will be available for offline use the next time the page is loaded.' );
+													break;
+													case 'redundant':
+														window.console.error( 'The installing service worker became redundant.' );
+													break;
+												};
+
 											};
 
 										};
 
-									};
+									}
+								)
+								.catch(
+									function( e ) {
 
-								}
-							)
-							.catch(
-								function( e ) {
+										window.console.error( 'Error during service worker registration:', e );
 
-									window.console.error( 'Error during service worker registration:', e );
+									}
+								)
+							;
 
-								}
-							)
-						;
+						};
+
+						window.addEventListener( 'load', serviceWorker, false );
 
 					};
 
-					window.addEventListener( 'load', serviceWorker, false );
-
-				};
-
-			}
-		)( window, navigator )
+				}
+			)( window, navigator )
 		</script>
 		</script>
 
