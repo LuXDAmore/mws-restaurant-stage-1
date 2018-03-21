@@ -164,11 +164,8 @@ function fillRestaurantHoursHTML( operatingHours = self.restaurant.operating_hou
 		day.innerHTML = key;
 		row.appendChild( day );
 
-		const time = document.createElement( 'td' )
-			, small = document.createElement( 'small' )
-		;
-		small.innerHTML = operatingHours[ key ].replace( ', ', '<br />' );
-		time.appendChild( small );
+		const time = document.createElement( 'td' );
+		time.innerHTML = operatingHours[ key ].replace( ', ', '<br />' );
 		row.appendChild( time );
 
 		hours.appendChild( row );
