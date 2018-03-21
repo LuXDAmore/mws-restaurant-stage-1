@@ -4,9 +4,9 @@
 let restaurants
 	, neighborhoods
 	, cuisines
-;
-let map
+	, map
 	, markers = []
+	, initialized = false
 ;
 /* eslint-enable no-unused-vars */
 
@@ -48,11 +48,16 @@ window.initMap = () => {
  */
 const ready = function() {
 
+	if( initialized )
+		return;
+
 	if(
 		IS_INDEX
 		&& typeof GMapHelper !== 'undefined'
 		&& typeof DBHelper !== 'undefined'
 	) {
+
+		initialized = true;
 
 		GMapHelper.load(
 			{
@@ -72,8 +77,8 @@ const ready = function() {
 	};
 
 };
+document.addEventListener( 'DOMContentLoaded', ready, false );
 ready();
-// document.addEventListener( 'DOMContentLoaded', ready, false );
 
 /**
  * Fetch all neighborhoods and set their HTML.
