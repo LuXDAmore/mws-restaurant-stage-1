@@ -17,14 +17,13 @@ body {
 ul,
 ol,
 li {
-	font-size: 10pt;
+	font-size: 12pt;
 	color: #333;
 }
 
 a {
 	text-decoration: none;
 }
-
 
 a img {
 	border: 0;
@@ -55,7 +54,7 @@ section {
 }
 
 #footer {
-	font-size: 10pt;
+	font-size: 12pt;
 	padding: 24px;
 	text-align: center;
 	text-transform: uppercase;
@@ -65,7 +64,6 @@ section {
 
 nav {
 	width: 100%;
-	height: auto;
 	min-height: 80px;
 	background-color: #333;
 	text-align: center;
@@ -90,9 +88,7 @@ nav h1 a {
 	padding: 8px 16px 12px;
 	list-style: none;
 	background-color: #143e59;
-	font-size: 17px;
 	margin: 0 auto;
-	width: 100%;
 	line-height: 1;
 }
 
@@ -106,7 +102,7 @@ nav h1 a {
 
 #breadcrumb li + li:before {
 	padding: 8px;
-	color: black;
+	color: #fff;
 	content: "/\00a0";
 }
 
@@ -134,8 +130,7 @@ nav h1 a {
 
 .filter-options {
 	width: 100%;
-	height: auto;
-	padding-top: 10px;
+	padding: 8px;
 	background-color: #143e59;
 	align-items: center !important;
 }
@@ -145,36 +140,40 @@ nav h1 a {
 	font-size: 1rem;
 	font-weight: normal;
 	line-height: 1;
-	margin-bottom: 0;
+	margin-bottom: 4px;
+}
+
+.filter-options > div {
+	flex-grow: 1;
+	text-align: center;
+	margin: 4px auto;
 }
 
 .filter-options select {
 	background-color: white;
-	border: 1px solid #fff;
-	font-size: 11pt;
-	height: 35px;
-	letter-spacing: 0;
-	margin: 10px;
-	padding: 0 10px;
-	width: 200px;
+	font-size: 12pt;
+	height: 32px;
+	margin: 0 auto;
+	padding: 0 8px;
+	min-width: 200px;
+	max-width: 100%;
 }
 
 /* ====================== Restaurant Listing ====================== */
 
 #restaurants-list {
-	list-style: outside none none;
+	list-style: none;
 	margin: 0 auto;
-	padding: 30px 15px 60px;
+	padding: 8px 16px;
 	text-align: center;
 }
 
 #restaurants-list li {
 	background-color: #fff;
-	border: 0px;
-	margin: 15px;
-	min-height: 380px;
-	padding: 0 30px 25px;
-	text-align: left;
+	margin: 16px 8px;
+	min-height: 407px;
+	padding: 0;
+	text-align: center;
 	width: 100%;
 	max-width: 300px;
 }
@@ -197,15 +196,15 @@ nav h1 a {
 }
 
 #restaurants-list p {
-	margin: 0;
-	font-size: 11pt;
+	margin: 0 auto;
+	font-size: 12pt;
 	font-weight: 200;
 }
 
 #restaurants-list li a {
 	display: inline-block;
 	color: white;
-	font-size: 10pt;
+	font-size: 12pt;
 	margin: 15px 0 0;
 	padding: 8px 30px 10px;
 	text-align: center;
@@ -252,7 +251,7 @@ nav h1 a {
 	border-bottom: 1px solid #d9d9d9;
 	border-top: 1px solid #fff;
 	padding: 140px 40px 30px;
-	width: 50%;
+	width: 100%;
 }
 
 #reviews-container {
@@ -279,7 +278,7 @@ nav h1 a {
 	overflow: hidden;
 	padding: 0 20px 20px;
 	position: relative;
-	width: 85%;
+	width: 100%;
 }
 
 #reviews-list li p {

@@ -108,7 +108,7 @@ function fillNeighborhoodsHTML( neighborhoods = self.neighborhoods ) {
 		neighborhood => {
 
 			const option = document.createElement( 'option' );
-			option.innerHTML = neighborhood;
+			option.textContent = neighborhood;
 			option.value = neighborhood;
 			select.append( option );
 
@@ -202,7 +202,7 @@ function resetRestaurants( restaurants ) {
 	// Remove all restaurants
 	self.restaurants = [];
 	const ul = document.getElementById( 'restaurants-list' );
-	ul.innerHTML = '';
+	ul.textContent = '';
 
 	// Remove all map markers
 	self.markers.forEach( m => m.setMap( null ) );
@@ -241,6 +241,7 @@ function createRestaurantHTML( restaurant ) {
 
 	// Fallback
 	const image = document.createElement( 'img' );
+
 	image.className = 'restaurant-img';
 	image.alt = 'Restaurant Image';
 	image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
@@ -248,22 +249,27 @@ function createRestaurantHTML( restaurant ) {
 
 	// Title
 	const name = document.createElement( 'h1' );
-	name.innerHTML = restaurant.name;
+
+	name.textContent = restaurant.name;
 	li.append( name );
 
 	const neighborhood = document.createElement( 'p' );
-	neighborhood.innerHTML = restaurant.neighborhood;
+
+	neighborhood.textContent = restaurant.neighborhood;
 	li.append( neighborhood );
 
 	const address = document.createElement( 'p' );
-	address.innerHTML = restaurant.address;
+
+	address.textContent = restaurant.address;
 	li.append( address );
 
 	const more = document.createElement( 'a' );
-	more.innerHTML = 'View Details';
-	more.href = DBHelper.urlForRestaurant( restaurant );
-	more.rel = 'nooper';
+
+	more.textContent = 'View Details';
 	more.title = 'Restaurant Details';
+	more.rel = 'nooper';
+	more.href = DBHelper.urlForRestaurant( restaurant );
+
 	li.append( more );
 
 	return li;
