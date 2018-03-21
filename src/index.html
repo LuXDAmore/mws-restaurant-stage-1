@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
 
 	<head>
 
@@ -11,10 +11,17 @@
 		<link rel="icon" type="image/png" href="favicon.png" />
 
 		<!-- Tricks -->
+		<link rel="preconnect" href="https://maps.googleapis.com/" crossorigin />
+		<link rel="preconnect" href="https://maps.gstatic.com/" crossorigin />
 		<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
+		<link rel="preconnect" href="https://fonts.googleapis.com/" crossorigin />
 		<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" as="style" />
+		<link rel="preload" href="assets/images/400/1.webp" as="image" media="(min-width: 400px)" />
+		<link rel="preload" href="assets/images/480/1.webp" as="image" media="(min-width: 480px)" />
+		<link rel="preload" href="assets/images/640/1.webp" as="image" media="(min-width: 640px)" />
+		<link rel="preload" href="assets/images/800/1.webp" as="image" media="(min-width: 800px)" />
+		<link rel="preload" href="assets/images/marker-map.webp" as="image" />
 		<link rel="preload" href="data/restaurants.json" as="fetch" />
-		<link rel="preload" href="assets/images/400/1.webp" as="image" />
 
 		<!-- WebApp Capable -->
 		<!-- Chrome for Android -->
@@ -73,11 +80,8 @@
 		</header>
 
 		<main id="maincontent">
-			<section
-				id="map-container"
-				aria-hidden="true"
-			>
-				<div id="map"></div>
+			<section id="map-container">
+				<div id="map" role="application" aria-label="Map with restaurants"></div>
 			</section>
 			<section>
 				<div class="filter-options">

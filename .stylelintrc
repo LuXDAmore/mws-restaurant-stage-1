@@ -24,7 +24,8 @@
 					"css3-tabsize",
 					"css-fixed",
 					"css-animation",
-					"background-img-opts"
+					"background-img-opts",
+					"pointer-events"
 				]
 			}
 		],

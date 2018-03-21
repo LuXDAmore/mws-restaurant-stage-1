@@ -772,6 +772,12 @@ gulp.task(
 				return;
 
 			}
+			, sequenceImages = function() {
+
+				sequence( 'copy:assets' )( reload );
+				return;
+
+			}
 			, sequenceHTML = function() {
 
 				sequence( 'build:html' )( reload );
@@ -786,7 +792,7 @@ gulp.task(
 			}
 			, sequenceASSETS = function() {
 
-				sequence( 'copy:requirements', [ 'copy:assets', 'copy:data' ] )( reload );
+				sequence( [ 'copy:requirements', 'copy:data' ] )( reload );
 				return;
 
 			}
@@ -824,8 +830,10 @@ gulp.task(
 		gulp.watch( options.directory.source + '/themes/**/*.*', sequenceVendorTHEMES );
 		gulp.watch( './bower.json', sequenceVendorBOWER );
 		// Assets
-		options.other_files.push( options.directory.source + '/assets/**/*.*' );
+		options.other_files.push( options.directory.source + '/data/**/*.*' );
 		gulp.watch( options.other_files, sequenceASSETS );
+		// Images
+		gulp.watch( options.directory.source + '/assets/**/*.*', sequenceImages );
 
 	}
 );

@@ -14,8 +14,13 @@
 			, markers = []
 		;
 
-		// Destructuring Self
-		const self = { restaurants, neighborhoods, cuisines, map, markers };
+		const self = {
+			restaurants,
+			neighborhoods,
+			cuisines,
+			map,
+			markers,
+		};
 
 		/**
 		 * Initialize Google map, called from HTML.
@@ -35,12 +40,13 @@
 					zoom: 12,
 					center: loc,
 					scrollwheel: false,
+					disableDefaultUI: true,
 				}
 			);
 
 			google.maps.event.addListenerOnce(
 				self.map,
-				'idle',
+				'tilesloaded',
 				() => GMapHelper.mapsLoaded( map )
 			);
 
@@ -53,34 +59,26 @@
 		 */
 		function ready() {
 
-			window.removeEventListener( 'load', ready, false ); // --> Remove listener, no longer needed
-
 			window.console.log( '%c RESTAURANT REVIEWS, ready to rock ✌️', 'color:#2980b9' );
 
-			if( typeof GMapHelper !== 'undefined'
-				&& typeof DBHelper !== 'undefined'
-			) {
+			DBHelper.fetchRestaurants(
+				() => {
 
-				DBHelper.fetchRestaurants(
-					() => {
+					fetchNeighborhoods();
+					fetchCuisines();
 
-						fetchNeighborhoods();
-						fetchCuisines();
+				}
+			);
 
-					}
-				);
-
-				GMapHelper.load(
-					{
-						callback: 'initMap',
-					}
-				);
-
-			};
+			GMapHelper.load(
+				{
+					callback: 'initMap',
+				}
+			);
 
 		};
 		if( IS_INDEX )
-			window.addEventListener( 'load', ready, false );
+			ready();
 
 		/**
 		 * Fetch all neighborhoods and set their HTML.
@@ -252,12 +250,12 @@
 			const image = document.createElement( 'img' );
 
 			image.className = 'restaurant-img';
-			image.alt = 'Restaurant Image';
+			image.alt = `${ restaurant.name } - ${ restaurant.cuisine_type }`;
 			image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
 			picture.append( image );
 
 			// Title
-			const name = document.createElement( 'h1' );
+			const name = document.createElement( 'h3' );
 
 			name.textContent = restaurant.name;
 			li.append( name );
@@ -286,8 +284,8 @@
 		};
 
 		/**
-		 * Add markers for current restaurants to the map.
-		 */
+		* Add markers for current restaurants to the map.
+		*/
 		function addMarkersToMap( restaurants = self.restaurants ) {
 
 			restaurants.forEach(
@@ -311,3 +309,4 @@
 
 	}
 )( window, document )
+

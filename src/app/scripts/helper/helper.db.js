@@ -3,21 +3,9 @@
 /**
  * Common database helper functions.
  */
-/* eslint-disable no-unused-vars */
-class DBHelper {
+class DBHelper { // eslint-disable-line
 
 	static restaurants = [];
-
-	/* eslint-enable no-unused-vars */
-	/**
-	 * Database URL.
-	 * Change this to restaurants.json file location on your server.
-	 */
-	static get DATABASE_URL() {
-
-		return 'data/restaurants.json';
-
-	};
 
 	/**
 	 * Fetch all restaurants.
@@ -30,21 +18,20 @@ class DBHelper {
 
 			const xhr = new XMLHttpRequest();
 
-			xhr.open( 'GET', DBHelper.DATABASE_URL );
+			xhr.responseType = 'json';
+			xhr.open( 'GET', 'data/restaurants.json' );
 			xhr.onload = () => {
 
 				// Got a success response from server!
 				if( xhr.status === 200 ) {
 
-					const json = JSON.parse( xhr.responseText );
-					this.restaurants = json.restaurants;
-
+					this.restaurants = xhr.response.restaurants;
 					callback( null, this.restaurants );
 
 				// Oops!. Got an error from server.
 				} else {
 
-					const error = ( `Request failed. Returned status of ${ xhr.status }` );
+					const error = `Request failed. Returned status of ${ xhr.status }`;
 					callback( error, null );
 
 				};
@@ -300,13 +287,19 @@ class DBHelper {
 	 */
 	static mapMarkerForRestaurant( restaurant, map ) {
 
+		const icon = {
+			url: 'assets/images/marker-map.webp',
+			size: new google.maps.Size( 43, 68 ),
+			scaledSize: new google.maps.Size( 27, 43 ),
+		};
+
 		const marker = new google.maps.Marker(
 			{
 				position: restaurant.latlng,
 				title: restaurant.name,
 				url: DBHelper.urlForRestaurant( restaurant ),
 				map: map,
-				// icon: 'assets/placeholder/images/gmarker.webp', // TODO: Setting a 'wepb' marker?
+				icon,
 			}
 		);
 

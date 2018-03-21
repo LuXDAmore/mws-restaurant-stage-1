@@ -3,9 +3,7 @@
 /**
  * Common gmaps helper functions.
  */
-/* eslint-disable no-unused-vars */
-class GMapHelper {
-	/* eslint-enable no-unused-vars */
+class GMapHelper { // eslint-disable-line
 
 	/**
 	 * GMaps load function with config.
@@ -14,12 +12,8 @@ class GMapHelper {
 
 		if( typeof document === 'undefined'
 			|| document.getElementById( 'google-maps-script' )
-		) {
-
-			// Do nothing if run from server-side or if script already founded
-			return;
-
-		};
+		)
+			return; // Do nothing if run from server-side or if script already founded
 
 		const default_config = {
 			key: 'AIzaSyBG8LXp4osGIgtI1SxUafmy6fPsgMq414c',
@@ -57,6 +51,13 @@ class GMapHelper {
 		const iframe = map.querySelector( 'iframe' );
 		if( iframe )
 			iframe.title = 'Google maps';
+
+		// TODO: Check the event anchors-ready.
+		/*
+		const anchors = map.querySelectorAll( 'a' );
+		if( anchors.length )
+			anchors.forEach( anchor => anchor.rel = 'nooper' );
+		*/
 
 	};
 

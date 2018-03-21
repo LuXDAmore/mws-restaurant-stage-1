@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="en">
 
 	<head>
 
@@ -11,8 +11,11 @@
 		<link rel="icon" type="image/png" href="favicon.png" />
 
 		<!-- Tricks -->
+		<link rel="preconnect" href="https://maps.googleapis.com/" crossorigin />
+		<link rel="preconnect" href="https://maps.gstatic.com/" crossorigin />
 		<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin />
 		<link rel="preload" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" as="style" />
+		<link rel="preload" href="assets/images/marker-map.webp" as="image" />
 		<link rel="preload" href="data/restaurants.json" as="fetch" />
 
 		<!-- WebApp Capable -->
@@ -91,16 +94,13 @@
 		<!-- Beginning main -->
 		<main id="maincontent">
 			<!-- Beginning map -->
-			<section
-				id="map-container"
-				aria-hidden="true"
-			>
-				<div id="map"></div>
+			<section id="map-container">
+				<div id="map" role="application" aria-label="Map of a restaurant"></div>
 			</section>
 			<!-- End map -->
 			<!-- Beginning restaurant -->
 			<section id="restaurant-container">
-				<h1 id="restaurant-name"></h1>
+				<h2 id="restaurant-name"></h2>
 				<picture id="restaurant-img"></picture>
 				<p id="restaurant-cuisine"></p>
 				<p id="restaurant-address"></p>

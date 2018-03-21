@@ -11,8 +11,10 @@
 			, map
 		;
 
-		// Destructuring Self
-		const self = { restaurant, map };
+		const self = {
+			restaurant,
+			map,
+		};
 
 		/**
 		 * Initialize Google map, called from HTML.
@@ -35,12 +37,13 @@
 								zoom: 16,
 								center: restaurant.latlng,
 								scrollwheel: false,
+								disableDefaultUI: true,
 							}
 						);
 
 						google.maps.event.addListenerOnce(
 							self.map,
-							'idle',
+							'tilesloaded',
 							() => GMapHelper.mapsLoaded( map )
 						);
 
@@ -59,26 +62,19 @@
 		/**
 		 * Fetch restaurant data
 		 */
-		function ready() {
-
-			window.removeEventListener( 'load', ready, false ); // --> Remove listener, no longer needed
+		function readyInfo() {
 
 			window.console.log( '%c RESTAURANT REVIEWS - SINGLE, ready to rock ✌️', 'color:#2980b9' );
 
-			if( typeof GMapHelper !== 'undefined' ) {
-
-				GMapHelper.load(
-					{
-						callback: 'initMapRestaurantInfo',
-					}
-				);
-
-			};
-
+			GMapHelper.load(
+				{
+					callback: 'initMapRestaurantInfo',
+				}
+			);
 
 		};
 		if( IS_RESTAURANT )
-			window.addEventListener( 'load', ready, false );
+			readyInfo();
 
 		/**
 		 * Get current restaurant from page URL.
@@ -143,7 +139,7 @@
 			// Fallback
 			const image = document.createElement( 'img' );
 			image.className = 'restaurant-img';
-			image.alt = 'Restaurant Image';
+			image.alt = `${ restaurant.name } - ${ restaurant.cuisine_type }`;
 			image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
 			picture.append( image );
 
@@ -160,8 +156,8 @@
 		};
 
 		/**
-		 * Create restaurant operating hours HTML table and add it to the webpage.
-		 */
+		* Create restaurant operating hours HTML table and add it to the webpage.
+		*/
 		function fillRestaurantHoursHTML( operatingHours = self.restaurant.operating_hours ) {
 
 			const hours = document.getElementById( 'restaurant-hours' );
@@ -185,8 +181,8 @@
 		};
 
 		/**
-		 * Create all reviews HTML and add them to the webpage.
-		 */
+		* Create all reviews HTML and add them to the webpage.
+		*/
 		function fillReviewsHTML( reviews = self.restaurant.reviews ) {
 
 			const container = document.getElementById( 'reviews-container' );
@@ -210,8 +206,8 @@
 		};
 
 		/**
-		 * Create review HTML and add it to the webpage.
-		 */
+		* Create review HTML and add it to the webpage.
+		*/
 		function createReviewHTML( review ) {
 
 			const li = document.createElement( 'li' );
