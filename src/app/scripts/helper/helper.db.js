@@ -326,7 +326,7 @@ class DBHelper { // eslint-disable-line
 	static mapMarkerForRestaurant( restaurant, map ) {
 
 		const icon = {
-			url: 'assets/images/marker-map.webp',
+			url: 'assets/images/placeholder/map-marker.webp',
 			size: new google.maps.Size( 43, 68 ),
 			scaledSize: new google.maps.Size( 27, 43 ),
 		};

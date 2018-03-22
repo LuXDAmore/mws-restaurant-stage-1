@@ -52,12 +52,18 @@ class GMapHelper { // eslint-disable-line
 		if( iframe )
 			iframe.title = 'Google maps';
 
-		// TODO: Check the event anchors-ready.
-		/*
-		const anchors = map.querySelectorAll( 'a' );
-		if( anchors.length )
-			anchors.forEach( anchor => anchor.rel = 'nooper' );
-		*/
+		// FIXME: Is this correct?
+		function step() {
+
+			const anchors = map.querySelectorAll( 'a' );
+
+			if( ! anchors.length )
+				window.requestAnimationFrame( step );
+			else
+				anchors.forEach( anchor => anchor.rel = 'nooper' );
+
+		};
+		window.requestAnimationFrame( step );
 
 	};
 
