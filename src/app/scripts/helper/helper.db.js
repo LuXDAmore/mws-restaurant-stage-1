@@ -58,6 +58,7 @@ class DBHelper { // eslint-disable-line
 				else {
 
 					const restaurant = restaurants.find( r => r.id === parseInt( id ) );
+
 					if( restaurant ) // Got the restaurant
 						callback( null, restaurant );
 					else // Restaurant does not exist in the database
@@ -131,17 +132,19 @@ class DBHelper { // eslint-disable-line
 					callback( error, null );
 				else {
 
-					let results = restaurants
-					if( cuisine !== 'all' ) // filter by cuisine
+					let results = restaurants;
+
+					// filter by cuisine
+					if( cuisine !== 'all' )
 						results = results.filter( r => r.cuisine_type === cuisine );
 
-
-					if( neighborhood !== 'all' ) // filter by neighborhoo
+					// filter by neighborhood
+					if( neighborhood !== 'all' )
 						results = results.filter( r => r.neighborhood === neighborhood );
 
 					callback( null, results );
 
-				}
+				};
 
 			}
 		);
@@ -162,9 +165,11 @@ class DBHelper { // eslint-disable-line
 				else {
 
 					// Get all neighborhoods from all restaurants
-					const neighborhoods = restaurants.map( ( v, i ) => restaurants[ i ].neighborhood )
+					const neighborhoods = restaurants.map( ( v, i ) => restaurants[ i ].neighborhood );
+
 					// Remove duplicates from neighborhoods
-					const uniqueNeighborhoods = neighborhoods.filter( ( v, i ) => neighborhoods.indexOf( v ) === i )
+					const uniqueNeighborhoods = neighborhoods.filter( ( v, i ) => neighborhoods.indexOf( v ) === i );
+
 					callback( null, uniqueNeighborhoods );
 
 				}
@@ -188,9 +193,11 @@ class DBHelper { // eslint-disable-line
 				else {
 
 					// Get all cuisines from all restaurants
-					const cuisines = restaurants.map( ( v, i ) => restaurants[ i ].cuisine_type )
+					const cuisines = restaurants.map( ( v, i ) => restaurants[ i ].cuisine_type );
+
 					// Remove duplicates from cuisines
-					const uniqueCuisines = cuisines.filter( ( v, i ) => cuisines.indexOf( v ) === i )
+					const uniqueCuisines = cuisines.filter( ( v, i ) => cuisines.indexOf( v ) === i );
+
 					callback( null, uniqueCuisines );
 
 				}
@@ -273,9 +280,9 @@ class DBHelper { // eslint-disable-line
 		// Fallback
 		const image = document.createElement( 'img' );
 
+		image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, fallback_img );
 		image.className = custom_class;
 		image.alt = alt;
-		image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, fallback_img );
 
 		picture.append( image );
 
