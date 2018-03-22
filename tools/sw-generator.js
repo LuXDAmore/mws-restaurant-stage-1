@@ -4,8 +4,10 @@
 		'use strict';
 
 		if( 'serviceWorker' in navigator
-			&& window.location.protocol === 'https:'
-			&& [ 'localhost', '127' ].indexOf( window.location.hostname ) === - 1
+			&& (
+				window.location.protocol === 'https:'
+				|| window.location.href.indexOf( 'localhost:[SERVICE-WORKER-EXCLUDED-PORT]' ) === - 1
+			)
 		) {
 
 			function serviceWorker() {

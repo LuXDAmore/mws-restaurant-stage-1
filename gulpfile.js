@@ -26,25 +26,45 @@ var gulp = require( 'gulp' )
 	, htmlhint = require( 'gulp-htmlhint' )
 	, bower = require( 'gulp-main-bower-files' )
 	, json = require( 'gulp-json-minify' )
+	// Main Configurations
 	, options = {
-		service_worker: {
-			name: 'sw.js',
-			generator: 'sw-generator.js',
+		directory: {
+			source: 'src',
+			dist: 'dist',
+			git_pages: 'docs',
+			tools: 'tools',
 		},
 		github: {
 			name: 'mws-restaurant-stage-1',
 		},
+		service_worker: {
+			name: 'sw.js',
+			generator: 'sw-generator.js',
+		},
+		browserSync: {
+			port: 4000,
+			server: {
+				baseDir: '',
+			},
+			ui: false,
+			ghostMode: false,
+			logConnections: false,
+			logSnippet: false,
+			minify: false,
+			timestamps: false,
+			notify: true,
+			localOnly: true,
+			logLevel: 'silent',
+		},
+		// Other options
 		clean: {
 			force: true,
 		},
 		read: {
 			read: false,
 		},
-		directory: {
-			source: 'src',
-			dist: 'dist',
-			git_pages: 'docs',
-			tools: 'tools',
+		write: {
+			overwrite: true,
 		},
 		babel: {
 			minified: false,
@@ -100,21 +120,6 @@ var gulp = require( 'gulp' )
 			minifyCSS: true,
 			minifyJS: true,
 		},
-		browserSync: {
-			port: 4000,
-			server: {
-				baseDir: '',
-			},
-			ui: false,
-			ghostMode: false,
-			logConnections: false,
-			logSnippet: false,
-			minify: false,
-			notify: true,
-			localOnly: true,
-			timestamps: false,
-			logLevel: "silent",
-		},
 		imagemin: {
 			plugins: [
 				imagemin.gifsicle(
@@ -155,7 +160,7 @@ options.other_files = [
 	options.directory.source + '/_config.yml',
 ];
 
-// Starting Gulp Tasks
+// Gulp Tasks
 // CLEAN TASKS
 gulp.task(
 	'clean',
@@ -180,12 +185,7 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgMagenta( ' [ Clean : App : Scripts ] ' ) );
 
-		return del(
-				[
-					options.directory.dist + '/app/scripts/app-*.js'
-				],
-				options.clean
-			)
+		return del( options.directory.dist + '/app/scripts/app-*.js', options.clean )
 			.catch( errorManager )
 		;
 
@@ -197,12 +197,7 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgMagenta( ' [ Clean : App : Styles ] ' ) );
 
-		return del(
-				[
-					options.directory.dist + '/app/styles/app-*.css'
-				],
-				options.clean
-			)
+		return del( options.directory.dist + '/app/styles/app-*.css', options.clean )
 			.catch( errorManager )
 		;
 
@@ -256,7 +251,7 @@ gulp.task(
 			.src( options.directory.source + '/data/**/*.json' )
 			.pipe( json() )
 			.on( 'error', errorManager )
-			.pipe( gulp.dest( options.directory.dist + '/data' ), { overwrite: true } )
+			.pipe( gulp.dest( options.directory.dist + '/data' ), options.write )
 		;
 
 	}
@@ -271,7 +266,7 @@ gulp.task(
 			.src( options.directory.source + '/assets/icons/**/*.{png,jpg,gif,svg}' )
 			.pipe( imagemin( options.imagemin.plugins, options.imagemin.config ) )
 			.on( 'error', errorManager )
-			.pipe( gulp.dest( options.directory.dist + '/assets/icons' ), { overwrite: true } )
+			.pipe( gulp.dest( options.directory.dist + '/assets/icons' ), options.write )
 		;
 
 	}
@@ -284,7 +279,7 @@ gulp.task(
 
 		return gulp
 			.src( options.directory.source + '/assets/fonts/**/*.*' )
-			.pipe( gulp.dest( options.directory.dist + '/assets/fonts' ), { overwrite: true } )
+			.pipe( gulp.dest( options.directory.dist + '/assets/fonts' ), options.write )
 		;
 
 	}
@@ -299,20 +294,24 @@ gulp.task(
 			.src( options.directory.source + '/assets/images/**/*.{png,jpg,gif,svg,webp}' )
 			.pipe( imagemin( options.imagemin.plugins, options.imagemin.config ) )
 			.on( 'error', errorManager )
-			.pipe( gulp.dest( options.directory.dist + '/assets/images' ), { overwrite: true } )
+			.pipe( gulp.dest( options.directory.dist + '/assets/images' ), options.write )
 		;
 
 	}
 );
 gulp.task(
 	'copy:assets',
-	sequence(
-		[
-			'copy:assets:fonts',
-			'copy:assets:icons',
-			'copy:assets:images',
-		]
-	)
+	function( done ) {
+
+		sequence(
+			[
+				'copy:assets:fonts',
+				'copy:assets:icons',
+				'copy:assets:images',
+			]
+		)( done );
+
+	}
 );
 gulp.task(
 	'copy:requirements',
@@ -322,7 +321,7 @@ gulp.task(
 
 		return gulp
 			.src( options.other_files )
-			.pipe( gulp.dest( options.directory.dist ), { overwrite: true } )
+			.pipe( gulp.dest( options.directory.dist ), options.write )
 		;
 
 	}
@@ -412,7 +411,7 @@ gulp.task(
 // SERVICE WORKER
 gulp.task(
 	'generate-service-worker',
-	function( callback ) {
+	function( done ) {
 
 		var path = require( 'path' )
 			, swPrecache = require( 'sw-precache' )
@@ -437,7 +436,7 @@ gulp.task(
 				options.service_worker.name
 			),
 			config,
-			callback
+			done
 		);
 
 	}
@@ -488,7 +487,9 @@ gulp.task(
 
 		gutil.log( gutil.colors.white.bgMagenta( ' [ Github Pages : Clean ] ' ) );
 
-		return del( options.directory.git_pages, options.clean ).catch( errorManager );
+		return del( options.directory.git_pages, options.clean )
+			.catch( errorManager )
+		;
 
 	}
 );
@@ -500,7 +501,7 @@ gulp.task(
 
 		return gulp
 			.src( options.directory.dist + '/**/**/*.*' )
-			.pipe( gulp.dest( options.directory.git_pages + '/' ), { overwrite: true } )
+			.pipe( gulp.dest( options.directory.git_pages + '/' ), options.write )
 		;
 
 	}
@@ -546,7 +547,7 @@ gulp.task(
 			.pipe( injectString.replace( replace_manifest[ 0 ], replace_manifest[ 1 ] ) )
 			.on( 'error', errorManager )
 			.pipe( filterManifest.restore )
-			.pipe( gulp.dest( options.directory.git_pages + '/' ), { overwrite: true } )
+			.pipe( gulp.dest( options.directory.git_pages + '/' ), options.write )
 		;
 
 	}
@@ -611,6 +612,7 @@ gulp.task(
 									.replace( /\n|\r|\t/g, '' )
 									.trim()
 									.replace( '[SERVICE-WORKER-NAME]', options.service_worker.name )
+									.replace( '[SERVICE-WORKER-EXCLUDED-PORT]', options.browserSync.port )
 								+ '</script>'
 							;
 
@@ -618,6 +620,7 @@ gulp.task(
 					}
 				)
 			)
+			.on( 'error', errorManager )
 			.pipe( htmlhint() )
 			.on( 'error', errorManager )
 			.pipe( html( options.html ) )
@@ -792,15 +795,17 @@ function reload( done ) {
 
 	gutil.log( gutil.colors.gray( 'File edited: browser reload..' ) );
 
+	browserSync.reload();
+
 	if( done && typeof done === 'function' )
 		done();
-
-	browserSync.reload();
 
 };
 gulp.task(
 	'serve',
-	[ 'build:development' ],
+	[
+		'build:development',
+	],
 	function() {
 
 		options.browserSync.server.baseDir = options.directory.dist;
@@ -808,50 +813,61 @@ gulp.task(
 
 		var sequenceJS = function() {
 
-				sequence( 'clean:app:scripts', 'build:scripts', 'build:inject' )( reload );
-				return;
+				sequence(
+					'clean:app:scripts',
+					'build:scripts',
+					'build:inject'
+				)( reload );
 
 			}
 			, sequenceCSS = function() {
 
-				sequence( 'clean:app:styles', 'build:styles', 'build:inject' )( reload );
-				return;
+				sequence(
+					'clean:app:styles',
+					'build:styles',
+					'build:inject'
+				)( reload );
 
 			}
 			, sequenceImages = function() {
 
 				sequence( 'copy:assets' )( reload );
-				return;
 
 			}
 			, sequenceHTML = function() {
 
 				sequence( 'build:html' )( reload );
-				return;
 
 			}
 			, sequenceINDEX = function() {
 
 				sequence( 'build:inject' )( reload );
-				return;
 
 			}
 			, sequenceASSETS = function() {
 
-				sequence( [ 'copy:requirements', 'copy:data' ] )( reload );
-				return;
+				sequence(
+					'copy:requirements',
+					'copy:data'
+				)( reload );
 
 			}
 			, sequenceVendorTHEMES = function() {
 
-				sequence( 'clean:vendor:themes', 'vendor:themes', 'build:inject' )( reload );
-				return;
+				sequence(
+					'clean:vendor:themes',
+					'vendor:themes',
+					'build:inject'
+				)( reload );
 
 			}
 			, sequenceVendorBOWER = function() {
 
-				sequence( 'clean:vendor:bower', 'vendor:bower', 'build:inject' )( reload )
-				return;
+				sequence(
+					'clean:vendor:bower',
+					'vendor:bower',
+					'build:inject'
+				)( reload )
 
 			}
 		;
@@ -867,8 +883,14 @@ gulp.task(
 			sequenceCSS
 		);
 		// Scripts
-		gulp.watch( options.directory.source + '/app/**/*.js', sequenceJS );
-		gulp.watch( './.eslintrc', sequenceJS );
+		gulp.watch(
+			[
+				options.directory.source + '/app/**/*.js',
+				options.directory.tools + '/' + options.service_worker.generator,
+				'./.eslintrc',
+			],
+			sequenceJS
+		);
 		// Html
 		gulp.watch( options.directory.source + '/app/**/*.html', sequenceHTML );
 		gulp.watch( options.directory.source + '/*.html', sequenceINDEX );
@@ -883,20 +905,114 @@ gulp.task(
 
 	}
 );
+gulp.task(
+	'serve:staging',
+	[
+		'build:staging',
+	],
+	function() {
+
+		options.browserSync.server.baseDir = options.directory.dist;
+		options.browserSync.port += 1000;
+		browserSync.init( options.browserSync );
+
+		var sequenceBuild = function() {
+
+			sequence( 'build:staging' )( reload );
+
+		};
+
+		// Watch files
+		// Styles
+		gulp.watch(
+			[
+				options.directory.source + '/**/**/**/*.*',
+				options.directory.tools + '/' + options.service_worker.generator,
+			],
+			sequenceBuild
+		);
+
+	}
+);
+gulp.task(
+	'serve:production',
+	[
+		'build',
+	],
+	function() {
+
+		options.browserSync.server.baseDir = options.directory.dist;
+		options.browserSync.port += 1000;
+		browserSync.init( options.browserSync );
+
+		var sequenceBuild = function() {
+
+			sequence( 'build' )( reload );
+
+		};
+
+		// Watch files
+		// Styles
+		gulp.watch(
+			[
+				options.directory.source + '/**/**/**/*.*',
+				options.directory.tools + '/' + options.service_worker.generator,
+			],
+			sequenceBuild
+		);
+
+	}
+);
 
 // DEFAULT TASKS
 gulp.task( 'clean:all', [ 'clean', 'github:pages:clean' ] );
+gulp.task( 'start', [ 'serve' ] );
 gulp.task( 'watch', [ 'serve' ] );
 gulp.task( 'dev', [ 'serve' ] );
 
-gulp.task( 'build:development', sequence( 'clean:all', 'environment:development', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' ) );
-gulp.task( 'build:testing', sequence( 'clean:all', 'environment:testing', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' ) );
-gulp.task( 'build:staging', sequence( 'clean:all', 'environment:staging', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' ) );
-gulp.task( 'build', sequence( 'clean', 'environment:production', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html' ], 'build:inject', 'generate-criticalcss', 'generate-service-worker' ) );
+gulp.task(
+	'build:development',
+	function( done ) {
+
+		sequence( 'clean:all', 'environment:development', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' )( done );
+
+	}
+);
+gulp.task(
+	'build:testing',
+	function( done ) {
+
+		sequence( 'clean:all', 'environment:testing', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' )( done );
+
+	}
+);
+gulp.task(
+	'build:staging',
+	function( done ) {
+
+		sequence( 'clean:all', 'environment:staging', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html', ], 'build:inject' )( done );
+
+	}
+);
+gulp.task(
+	'build',
+	function( done ) {
+
+		sequence( 'clean', 'environment:production', [ 'copy:requirements', 'copy:assets', 'copy:data' ], [ 'vendor:bower', 'vendor:themes' ], [ 'build:styles', 'build:scripts', 'build:html' ], 'build:inject', 'generate-criticalcss', 'generate-service-worker' )( done );
+
+	}
+);
 gulp.task( 'default', [ 'build' ] );
 
 // Github Pages
-gulp.task( 'github:pages', sequence( 'build', 'github:pages:clean', 'github:pages:copy', 'github:pages:replace' ) );
+gulp.task(
+	'github:pages',
+	function( done ) {
+
+		sequence( 'build', 'github:pages:clean', 'github:pages:copy', 'github:pages:replace' )( done );
+
+	}
+);
 
 // Exports Gulp if you use 'Gulp Devtools' in Chrome DevTools
 module.exports = gulp;
