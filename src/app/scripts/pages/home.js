@@ -238,21 +238,19 @@
 		 */
 		function createRestaurantHTML( restaurant ) {
 
-			const li = document.createElement( 'li' );
+			const li = document.createElement( 'li' )
+				, picture = document.createElement( 'picture' )
+			;
 
-			const picture = document.createElement( 'picture' );
+			DBHelper.generateSourceInPicture(
+				restaurant,
+				picture,
+				[
+					400,
+				]
+			);
+
 			li.append( picture );
-
-			DBHelper.generateSourceInPicture( restaurant, picture );
-			DBHelper.generateSourceInPicture( restaurant, picture, 'jpg' );
-
-			// Fallback
-			const image = document.createElement( 'img' );
-
-			image.className = 'restaurant-img';
-			image.alt = `${ restaurant.name } - ${ restaurant.cuisine_type }`;
-			image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
-			picture.append( image );
 
 			// Title
 			const name = document.createElement( 'h3' );

@@ -25,6 +25,7 @@ var gulp = require( 'gulp' )
 	, html = require( 'gulp-htmlmin' )
 	, htmlhint = require( 'gulp-htmlhint' )
 	, bower = require( 'gulp-main-bower-files' )
+	, json = require( 'gulp-json-minify' )
 	, options = {
 		service_worker: {
 			name: 'sw.js',
@@ -252,7 +253,9 @@ gulp.task(
 		gutil.log( gutil.colors.white.bgBlue( ' [ Copy : Data ] ' ) );
 
 		return gulp
-			.src( options.directory.source + '/data/**/*.*' )
+			.src( options.directory.source + '/data/**/*.json' )
+			.pipe( json() )
+			.on( 'error', errorManager )
 			.pipe( gulp.dest( options.directory.dist + '/data' ), { overwrite: true } )
 		;
 

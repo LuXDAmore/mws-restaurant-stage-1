@@ -134,14 +134,6 @@
 			const picture = document.getElementById( 'restaurant-img' );
 
 			DBHelper.generateSourceInPicture( restaurant, picture );
-			DBHelper.generateSourceInPicture( restaurant, picture, 'jpg' );
-
-			// Fallback
-			const image = document.createElement( 'img' );
-			image.className = 'restaurant-img';
-			image.alt = `${ restaurant.name } - ${ restaurant.cuisine_type }`;
-			image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, 400 );
-			picture.append( image );
 
 			const cuisine = document.getElementById( 'restaurant-cuisine' );
 			cuisine.textContent = restaurant.cuisine_type;

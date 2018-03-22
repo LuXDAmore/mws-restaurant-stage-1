@@ -205,7 +205,16 @@ class DBHelper { // eslint-disable-line
 	 */
 	static urlForRestaurant( restaurant ) {
 
-		return ( `restaurant.html?id=${ restaurant.id }` );
+		return `restaurant.html?id=${ restaurant.id }`;
+
+	};
+
+	/**
+	 * Restaurant images alt text.
+	 */
+	static altTextForRestaurantImages( restaurant ) {
+
+		return `${ restaurant.name }, ${ restaurant.cuisine_type } - ${ restaurant.alt }`;
 
 	};
 
@@ -215,38 +224,60 @@ class DBHelper { // eslint-disable-line
 	static generateSourceInPicture(
 		restaurant,
 		picture,
-		type = 'webp',
-		element = 'source',
-		length = 3,
-		retina = false
+		medias = [
+			800,
+			640,
+			480,
+			400
+		],
+		types = [
+			'webp',
+			'jpg',
+		],
+		retina = false,
+		alt = DBHelper.altTextForRestaurantImages( restaurant ),
+		custom_class = 'restaurant-img',
+		fallback_img = 400,
 	) {
 
-		for( let i = 0; i <= ( length - 1 ); i ++ ) {
+		if( medias.length
+			&& types.length
+		) {
 
-			const source = document.createElement( element );
+			for( let i = 0; i < medias.length; i ++ ) {
 
-			let media = 400;
+				const media = medias[ i ];
 
-			switch( i ) {
-				case 0:
-					media = 800;
-				break;
-				case 1:
-					media = 480;
-				break;
-			}
+				for( let j = 0; j < types.length; j ++ ) {
 
-			let srcset = DBHelper.imageUrlForRestaurant( restaurant, media, type );
-			if( retina )
-				srcset += ` 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
+					const source = document.createElement( 'source' )
+						, type = types[ j ]
+					;
 
-			source.media = `(min-width: ${ media }px)`;
-			source.type = `image/${ type }`;
-			source.dataset.srcset = srcset;
+					let srcset = DBHelper.imageUrlForRestaurant( restaurant, media, type );
+					if( retina )
+						srcset += ` 1x, ${ DBHelper.imageUrlForRestaurant( restaurant, media * 2, type ) } 2x`;
 
-			picture.append( source );
+					source.dataset.srcset = srcset;
+					source.media = `(min-width: ${ media }px)`;
+					source.type = `image/${ type }`;
+
+					picture.append( source );
+
+				};
+
+			};
 
 		};
+
+		// Fallback
+		const image = document.createElement( 'img' );
+
+		image.className = custom_class;
+		image.alt = alt;
+		image.dataset.src = DBHelper.imageUrlForRestaurant( restaurant, fallback_img );
+
+		picture.append( image );
 
 	};
 
@@ -278,7 +309,7 @@ class DBHelper { // eslint-disable-line
 
 		const filename = extension ? restaurant.photograph.replace( 'jpg', extension ) : restaurant.photograph;
 
-		return ( `assets/images/${ size }/${ filename }` );
+		return `assets/images/${ size }/${ filename }`;
 
 	};
 
@@ -296,7 +327,7 @@ class DBHelper { // eslint-disable-line
 		const marker = new google.maps.Marker(
 			{
 				position: restaurant.latlng,
-				title: restaurant.name,
+				title: DBHelper.altTextForRestaurantImages( restaurant ),
 				url: DBHelper.urlForRestaurant( restaurant ),
 				map: map,
 				icon,
