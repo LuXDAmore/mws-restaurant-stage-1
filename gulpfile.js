@@ -152,13 +152,18 @@ var gulp = require( 'gulp' )
 
 // Common files
 options.other_files = [
-	options.directory.source + '/favicon.ico',
-	options.directory.source + '/favicon.png',
-	options.directory.source + '/manifest.json',
-	options.directory.source + '/browserconfig.xml',
-	options.directory.source + '/robots.txt',
-	options.directory.source + '/_config.yml',
+	options.directory.source + '/*.ico',
+	options.directory.source + '/*.png',
+	options.directory.source + '/*.json',
+	options.directory.source + '/*.xml',
+	options.directory.source + '/*.txt',
+	options.directory.source + '/*.yml',
+	options.directory.source + '/*.txt',
 ];
+
+// Common Webserver
+options.browserSync.server.baseDir = options.directory.dist;
+options.service_worker.local_port = options.browserSync.port + 1000;
 
 // Gulp Tasks
 // CLEAN TASKS
@@ -808,7 +813,6 @@ gulp.task(
 	],
 	function() {
 
-		options.browserSync.server.baseDir = options.directory.dist;
 		browserSync.init( options.browserSync );
 
 		var sequenceJS = function() {
@@ -912,8 +916,7 @@ gulp.task(
 	],
 	function() {
 
-		options.browserSync.server.baseDir = options.directory.dist;
-		options.browserSync.port += 1000;
+		options.browserSync.notify = false;
 		browserSync.init( options.browserSync );
 
 		var sequenceBuild = function() {
@@ -941,25 +944,19 @@ gulp.task(
 	],
 	function() {
 
-		options.browserSync.server.baseDir = options.directory.dist;
-		options.browserSync.port += 1000;
-		browserSync.init( options.browserSync );
+		var webserver = require( 'gulp-webserver' );
 
-		var sequenceBuild = function() {
-
-			sequence( 'build' )( reload );
-
-		};
-
-		// Watch files
-		// Styles
-		gulp.watch(
-			[
-				options.directory.source + '/**/**/**/*.*',
-				options.directory.tools + '/' + options.service_worker.generator,
-			],
-			sequenceBuild
-		);
+		return gulp
+			.src( options.directory.dist + '/' )
+			.pipe(
+				webserver(
+					{
+						port: options.service_worker.local_port,
+						open: true,
+					}
+				)
+			)
+		;
 
 	}
 );
