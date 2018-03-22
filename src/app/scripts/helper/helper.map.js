@@ -60,7 +60,7 @@ class GMapHelper { // eslint-disable-line
 			if( ! anchors.length )
 				window.requestAnimationFrame( step );
 			else
-				anchors.forEach( anchor => anchor.rel = 'nooper' );
+				anchors.forEach( anchor => anchor.rel = 'noopener' );
 
 		};
 		window.requestAnimationFrame( step );
