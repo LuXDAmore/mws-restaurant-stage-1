@@ -653,15 +653,13 @@ gulp.task(
 
 		var nameJS = development() ? 'app.js' : 'app.min.js';
 
-		var polyfill = './node_modules/gulp-babel/node_modules/babel-core/browser-polyfill.js'
-
-		var scripts = [
-			polyfill,
-			options.directory.source + '/app/**/*.js',
-		];
-
 		return gulp
-			.src( scripts )
+			.src(
+				[
+					options.directory.source + '/app/scripts/helper/*.js',
+					options.directory.source + '/app/scripts/pages/*.js',
+				]
+			)
 			.pipe( eslint.format() )
 			.pipe( gulpif( production(), eslint.failAfterError() ) )
 			.pipe( gulpif( staging(), sourcemaps.init() ) )
