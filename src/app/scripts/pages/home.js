@@ -5,6 +5,8 @@
 
 		// Check the right page
 		const IS_INDEX = window.location.href.indexOf( 'restaurant.html' ) === - 1;
+		if( ! IS_INDEX )
+			return;
 
 		// Common vars
 		let restaurants
@@ -54,6 +56,8 @@
 
 		};
 
+		// Restaurants list
+		const ul = document.getElementById( 'restaurants-list' );
 		/**
 		 * Fetch neighborhoods and cuisines as soon as the page is loaded.
 		 */
@@ -77,8 +81,7 @@
 			);
 
 		};
-		if( IS_INDEX )
-			ready();
+		ready();
 
 		/**
 		 * Fetch all neighborhoods and set their HTML.
@@ -108,15 +111,15 @@
 		 */
 		function fillNeighborhoodsHTML( neighborhoods = self.neighborhoods ) {
 
-			const select = document.getElementById( 'neighborhoods-select' );
-
 			neighborhoods.forEach(
 				neighborhood => {
 
 					const option = document.createElement( 'option' );
+
 					option.textContent = neighborhood;
 					option.value = neighborhood;
-					select.append( option );
+
+					nSelect.append( option );
 
 				}
 			);
@@ -151,15 +154,15 @@
 		 */
 		function fillCuisinesHTML( cuisines = self.cuisines ) {
 
-			const select = document.getElementById( 'cuisines-select' );
-
 			cuisines.forEach(
 				cuisine => {
 
 					const option = document.createElement( 'option' );
+
 					option.innerHTML = cuisine;
 					option.value = cuisine;
-					select.append( option );
+
+					cSelect.append( option );
 
 				}
 			);
@@ -169,10 +172,10 @@
 		/**
 		 * Update page and map for current restaurants.
 		 */
-		function updateRestaurants() {
+		const cSelect = document.getElementById( 'cuisines-select' );
+		const nSelect = document.getElementById( 'neighborhoods-select' );
 
-			const cSelect = document.getElementById( 'cuisines-select' );
-			const nSelect = document.getElementById( 'neighborhoods-select' );
+		function updateRestaurants() {
 
 			const cIndex = cSelect.selectedIndex;
 			const nIndex = nSelect.selectedIndex;
@@ -200,6 +203,10 @@
 
 		};
 
+		// onChange event of filters
+		cSelect.addEventListener( 'change', updateRestaurants, false );
+		nSelect.addEventListener( 'change', updateRestaurants, false );
+
 		/**
 		 * Clear current restaurants, their HTML and remove their map markers.
 		 */
@@ -208,7 +215,6 @@
 			// Remove all restaurants
 			self.restaurants = [];
 
-			const ul = document.getElementById( 'restaurants-list' );
 			ul.textContent = '';
 
 			// Remove all map markers
@@ -223,13 +229,14 @@
 		 */
 		function fillRestaurantsHTML( restaurants = self.restaurants ) {
 
-			const ul = document.getElementById( 'restaurants-list' );
 
 			restaurants.forEach( restaurant => ul.append( createRestaurantHTML( restaurant ) ) );
 
 			DBHelper.lazyLoadImages();
 
 			addMarkersToMap();
+
+			ul.setAttribute( 'aria-busy', false );
 
 		};
 

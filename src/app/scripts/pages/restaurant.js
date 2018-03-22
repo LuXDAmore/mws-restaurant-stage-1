@@ -5,6 +5,8 @@
 
 		// Check the right page
 		const IS_RESTAURANT = window.location.href.indexOf( 'restaurant.html' ) !== - 1;
+		if( ! IS_RESTAURANT )
+			return;
 
 		// Common vars
 		let restaurant
@@ -62,7 +64,7 @@
 		/**
 		 * Fetch restaurant data
 		 */
-		function readyInfo() {
+		function ready() {
 
 			window.console.log( '%c RESTAURANT REVIEWS - SINGLE, ready to rock ✌️', 'color:#2980b9' );
 
@@ -73,8 +75,7 @@
 			);
 
 		};
-		if( IS_RESTAURANT )
-			readyInfo();
+		ready();
 
 		/**
 		 * Get current restaurant from page URL.

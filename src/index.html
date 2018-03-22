@@ -79,7 +79,7 @@
 
 	</head>
 
-	<body>
+	<body class="home">
 
 		<header>
 			<nav class="main-nav">
@@ -96,8 +96,8 @@
 				<div id="map" role="application" aria-label="Map with restaurants"></div>
 			</section>
 			<section>
-				<div class="filter-options">
-					<div>
+				<form class="filter-options">
+					<fieldset class="fields">
 						<label for="neighborhoods-select">
 							<h2>
 								Filter by neighborhood
@@ -106,13 +106,12 @@
 						<select
 							id="neighborhoods-select"
 							name="neighborhoods"
-							onchange="updateRestaurants()"
 						>
 							<option value="all">All Neighborhoods</option>
 						</select>
-					</div>
+					</fieldset>
 
-					<div>
+					<fieldset class="fields">
 						<label for="cuisines-select">
 							<h2>
 								Filter by cuisine
@@ -121,14 +120,16 @@
 						<select
 							id="cuisines-select"
 							name="cuisines"
-							onchange="updateRestaurants()"
 						>
 							<option value="all">All Cuisines</option>
 						</select>
-					</div>
-				</div>
+					</fieldset>
+				</form>
 
-				<ul id="restaurants-list">
+				<ul
+					id="restaurants-list"
+					aria-busy="true"
+				>
 					<li>
 
 						<picture></picture>
