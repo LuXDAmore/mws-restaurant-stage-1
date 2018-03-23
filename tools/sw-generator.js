@@ -30,6 +30,9 @@
 
 								var installingWorker = registration.installing;
 
+								/* TODO: Show a toast that informs to refresh the page */
+								/* TODO: importScripts: Should i add ./node_modules/sw-toolbox/sw-toolbox.js ? npm install --save sw-toolbox */
+								/* https://youtu.be/lXLKSJmLULM?t=2m36s */
 								installingWorker.onstatechange = function() {
 
 									switch( installingWorker.state ) {
