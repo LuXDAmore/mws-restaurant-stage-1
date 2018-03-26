@@ -100,7 +100,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://LuXDAmore@bitbucket.org/studiomado/pvp_gestionale.git"
+		"url": "https://github.com/LuXDAmore/mws-restaurant-stage-1/"
 	},
 	"engines": {
 		"node": ">= 4.0.0",
